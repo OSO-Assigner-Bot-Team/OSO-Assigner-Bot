@@ -11,6 +11,19 @@ This bot requires [Node.js](https://nodejs.org) and npm to be installed on your 
 
 To install the packages this bot uses, simply run `npm install` in a command prompt/terminal in the root directory of this repo.
 
+## Configure
+
+For the bot to function correctly you need to provide `config.json` file in the root directory of the project. 
+
+```json
+{
+    "token":"replace-with-token",
+    "clientId":"replace-with-application-id",
+    "guildId":"replace-with-server-id"
+}
+```
+
+
 ## Contribute
 Join the team's [Discord server](https://discord.gg/CXud8wdczn), all the information and resources are over there.
 
