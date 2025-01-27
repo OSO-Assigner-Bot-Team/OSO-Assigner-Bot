@@ -14,7 +14,6 @@ module.exports = {
 		for (const file of commandFiles) {
 			const command = require(`./${file}`);
 			commands.set(command.data.name, command.data.description);
-			console.log(commands);
 		}
 
 		let msg = '# List of commands: ';
