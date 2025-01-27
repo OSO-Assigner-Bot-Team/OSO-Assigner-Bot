@@ -17,9 +17,9 @@ For the bot to function correctly you need to provide `config.json` file in the 
 
 ```json
 {
-    "token":"replace-with-token",
-    "clientId":"replace-with-application-id",
-    "guildId":"replace-with-server-id"
+	"token": "replace-with-token",
+	"clientId": "replace-with-application-id",
+	"guildId": "replace-with-server-id"
 }
 ```
 
