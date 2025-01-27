@@ -1,6 +1,9 @@
 # SENSITIVE INFO
 config.json
 
+# Database
+database.sqlite
+
 # Logs
 logs
 *.log
