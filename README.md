@@ -23,6 +23,8 @@ For the bot to function correctly you need to provide `config.json` file in the 
 }
 ```
 
+## Run
+To run the bot locally on your computer, simply run `node .` in a command prompt/terminal in the root directory of this repo. To stop running, press `Ctrl` + `C`.
 
 ## Contribute
 Join the team's [Discord server](https://discord.gg/CXud8wdczn), all the information and resources are over there.
