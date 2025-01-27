@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const { MessageFlags, SlashCommandBuilder, Collection } = require('discord.js');
+const { Collection, MessageFlags, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
