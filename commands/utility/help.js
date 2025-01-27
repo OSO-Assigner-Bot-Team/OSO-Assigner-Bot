@@ -17,13 +17,12 @@ module.exports = {
 			console.log(commands);
 		}
 
-		await interaction.reply({ content: 'List of commands:', flags: MessageFlags.Ephemeral });
+		let msg = '# List of commands: ';
 
 		for (const command of commands) {
-			await interaction.followUp({
-				content: `# /${command[0]}\n${command[1]}`,
-				flags: MessageFlags.Ephemeral,
-			});
+			msg = msg.concat(`\n## /${command[0]}\n${command[1]}`);
 		}
+
+		await interaction.reply({ content: msg, flags: MessageFlags.Ephemeral });
 	},
 };
