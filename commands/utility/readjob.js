@@ -22,19 +22,18 @@ module.exports = {
 	async execute(interaction) {
 		const scene_id = interaction.options.getString('scene_id');
 
-		const scene = fs.readFileSync('jobs.csv');
-		const parsed_scene = parse(scene, { trim: true });
+		const scene = parse(fs.readFileSync('jobs.csv'), { trim: true });
 
-		for (let i = 0; i < parsed_scene.length; i++) {
-			if (scene_id.toUpperCase() === parsed_scene[i][0]) {
+		for (let i = 0; i < scene.length; i++) {
+			if (scene_id.toUpperCase() === scene[i][0]) {
 				interaction.reply(`
-* Scene ID: ${parsed_scene[i][0]}
-* Description: ${parsed_scene[i][1]}
-* Attachments: ${parsed_scene[i][2]}
-* Attributes: ${parsed_scene[i][3]}
-* Required roles: ${parsed_scene[i][4]}
-* Deadline: ${parsed_scene[i][5]}
-* Status: ${parsed_scene[i][6]}`);
+* Scene ID: ${scene[i][0]}
+* Description: ${scene[i][1]}
+* Attachments: ${scene[i][2]}
+* Attributes: ${scene[i][3]}
+* Required roles: ${scene[i][4]}
+* Deadline: ${scene[i][5]}
+* Status: ${scene[i][6]}`);
 			}
 		}
 	},
