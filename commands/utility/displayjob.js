@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const { parse } = require('csv-parse/sync');
+const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
