@@ -14,6 +14,6 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
-		interaction.reply(`\`${fs.readFileSync('jobs.csv')}\``);
+		interaction.reply(`\`${fs.readFileSync('jobs.v0.csv')}\``);
 	},
 };

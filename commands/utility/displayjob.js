@@ -22,7 +22,7 @@ module.exports = {
 	async execute(interaction) {
 		const scene_id = interaction.options.getString('scene_id');
 
-		const scene = parse(fs.readFileSync('jobs.csv'), { trim: true });
+		const scene = parse(fs.readFileSync('jobs.v0.csv'), { trim: true });
 
 		for (const i of scene) {
 			if (scene_id.toUpperCase() === i[0]) {
