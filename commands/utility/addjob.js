@@ -39,7 +39,13 @@ module.exports = {
 			option
 				.setName('status')
 				.setDescription('Status')
-				.setRequired(true))
+				.setRequired(true)
+				.addChoices(
+					// Should this be in separate file for easy lookup?
+					{ name: 'Completed', value: 'completed' },
+					{ name: 'In Progress', value: 'inProgress' },
+					{ name: 'Unassigned', value: 'unassigned' },
+				))
 		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
 			PermissionFlagsBits.AttachFiles |
 			PermissionFlagsBits.ReadMessageHistory |
@@ -49,11 +55,14 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
+		// how would scene ID work? shouldn't it be automatic?
 		const scene_id = interaction.options.getString('scene_id');
+		// sanitize input. There shouldn't be any commas in the fields.
 		const description = interaction.options.getString('description');
 		const attachments = interaction.options.getString('attachments');
 		const attributes = interaction.options.getString('attributes');
 		const required_roles = interaction.options.getString('required_roles');
+		// deadline would need to be checked for valid date
 		const deadline = interaction.options.getString('deadline');
 		const status = interaction.options.getString('status');
 
