@@ -2,7 +2,8 @@
 This is the self-assigning bot for the production for Open Source Objects, built with [discord.js](https://discord.js.org/).
 
 ## Features
-* INSERT FEATURES HERE
+This will be updated as more features are added.
+* Create and view jobs
 
 ## Install
 First, run `git clone https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot.git` in a command prompt/terminal.
