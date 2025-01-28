@@ -4,8 +4,8 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('readjob')
-		.setDescription('Reads the specified job from the CSV file and displays it.')
+		.setName('displayjob')
+		.setDescription('Displays the specified job.')
 		.addStringOption(option =>
 			option
 				.setName('scene_id')
