@@ -1,4 +1,6 @@
-class Job {
+// module.exports is required to use the class outside this file but for some reason it's not working
+// Job becomes unidentified
+module.exports = class Job {
 	constructor(scene_id, description, attachments, attributes, required_roles, deadline, status) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
@@ -38,8 +40,8 @@ class Job {
 		return this.status;
 	};
 
-	// Returns what are correct values for `status` field
-	getAvailableStatuses() {
+	// Returns an array with what are correct values for `status` field
+	static getAvailableStatuses() {
 		return this.available_statuses;
 	};
 
@@ -66,6 +68,7 @@ class Job {
 		this.deadline = deadline;
 	};
 
+	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
 		try {
 			// console.log(status);
@@ -87,8 +90,6 @@ class Job {
 	};
 
 
-}
+};
 
-
-const audio = new Job('1','1','1','1','1','1','COMPLETED');
-const animation = new Job('1','1','1','1','1','1','1');
+console.log(Job.getAvailableStatuses())

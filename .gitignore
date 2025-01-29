@@ -1,5 +1,6 @@
 # SENSITIVE INFO
 config.json
+config.json.old
 
 # Database
 jobs.csv
