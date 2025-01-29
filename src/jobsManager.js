@@ -8,7 +8,6 @@ class Job {
 		this.setDeadline(deadline);
 		this.setStatus(status);
 	}
-	// TODO
 	static available_statuses = ['COMPLETED', 'IN_PROGRESS', 'UNASSIGNED'];
 
 
@@ -69,24 +68,21 @@ class Job {
 
 	setStatus(status) {
 		try {
-			console.log(status);
-			console.log(Job.available_statuses[2] == status)
-			// WHY DOES THIS NOT WORK AGHHHHHHHH!!!!!
-			// IT DOESN"T WANT TO EXECUTE INSIDE FOR EACH LOOP
-			// I AM LOOSING MY MIND
-			available_statuses.forEach(element => {
-				if (status == element) {
-					this.status = status;
-					console.log(element);
-				}
-				console.log(element);
-			});
-			if (this.status !== status) {
+			// console.log(status);
+			// console.log(Job.available_statuses.includes(status))
+			this.status = status;
+
+
+			if (Job.available_statuses.includes(status)) {
+				this.status = status;
+			}
+			else {
 				throw new TypeError('Wrong Status');
 			}
 		}
 		catch (error) {
-			console.log('error setting status in a job');
+			// This should be made more verbose so the errors will be more helpful
+			console.log('Error setting status in a job');
 		}
 	};
 
@@ -94,7 +90,5 @@ class Job {
 }
 
 
-const audio = new Job('1','1','1','1','1','1','UNASSIGNED');
-console.log(audio.getStatus());
-console.log(Job.available_statuses[2])
+const audio = new Job('1','1','1','1','1','1','COMPLETED');
 const animation = new Job('1','1','1','1','1','1','1');
