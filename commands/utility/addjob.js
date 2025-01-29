@@ -67,11 +67,11 @@ module.exports = {
 		const status = interaction.options.getString('status');
 
 		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', `${scene_id}, ${description}, ${attachments}, ${attributes}, ${required_roles}, ${deadline}, ${status}\n`);
+			fs.appendFileSync('jobs.v0.csv', `${scene_id},${description},${attachments},${attributes},${required_roles},${deadline},${status}\n`);
 		}
 		else {
 			fs.appendFileSync('jobs.v0.csv', 'SceneId, Description, Attachments, Attributes, RequiredRoles, Deadline, Status\n');
-			fs.appendFileSync('jobs.v0.csv', `${scene_id}, ${description}, ${attachments}, ${attributes}, ${required_roles}, ${deadline}, ${status}\n`);
+			fs.appendFileSync('jobs.v0.csv', `${scene_id},${description},${attachments},${attributes},${required_roles},${deadline},${status}\n`);
 		}
 
 		interaction.reply(`
