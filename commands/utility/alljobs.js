@@ -1,4 +1,5 @@
 const fs = require('node:fs');
+const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
@@ -14,6 +15,22 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
-		interaction.reply(`\`${fs.readFileSync('jobs.v0.csv')}\``);
+		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
+
+		let table = '';
+
+		for (const i of jobs) {
+			// Are we at the header?
+			if (i[0] == 'SceneId') {
+				// Create formatted header
+				table = table.concat('__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status__\n');
+				continue;
+			}
+
+			// Create row
+			table = table.concat(`${i[0]}, ${i[1]}, ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}\n`);
+		}
+
+		interaction.reply(table);
 	},
 };
