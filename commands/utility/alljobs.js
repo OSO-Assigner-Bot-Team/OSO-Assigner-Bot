@@ -28,7 +28,7 @@ module.exports = {
 			}
 
 			// Create row
-			table = table.concat(`${i[0]}, ${i[1]}, ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}\n`);
+			table = table.concat(`${i[0]}, "${i[1]}", ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}\n`);
 		}
 
 		interaction.reply(table);
