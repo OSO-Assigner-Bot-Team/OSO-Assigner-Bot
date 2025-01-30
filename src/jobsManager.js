@@ -10,10 +10,12 @@ class Job {
 		this.setDeadline(deadline);
 		this.setStatus(status);
 	}
-	// Names that are saved in a file
-	static available_statuses = ['COMPLETED', 'IN_PROGRESS', 'UNASSIGNED'];
-	// Names that should be displayed in Discord
-	static available_statuses_names = ['Completed', 'In Progress', 'Unassigned'];
+
+
+	static available_statuses = [
+		{ name: 'Completed', value: 'COMPLETED' },
+		{ name: 'In Progress', value: 'IN_PROGRESS' },
+		{ name: 'Unassigned', value: 'UNASSIGNED' }];
 
 	getSceneId() {
 		return this.scene_id;
@@ -44,15 +46,7 @@ class Job {
 
 	// Returns an array of Objects with name: and value: pair
 	static getAvailableStatuses() {
-		// Should this be made to return different things depending on circumstance?
-		const return_object = [];
-		for (let i = 0; i < this.available_statuses.length; i++) {
-			return_object.push(
-				{ name:this.available_statuses_names[i], value:this.available_statuses[i] },
-			);
-		};
-		// console.log(return_object)
-		return return_object;
+		return this.available_statuses;
 	};
 
 	setSceneId(scene_id) {
@@ -81,19 +75,17 @@ class Job {
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
 		try {
-			this.status = status;
-
-
-			if (Job.available_statuses.includes(status)) {
-				this.status = status;
+			for (const x of Job.available_statuses) {
+				if (x.value == status) {
+					this.status = status;
+				}
 			}
-			else {
+			if (this.status == undefined | this.status !== status) {
 				throw new TypeError('Wrong Status');
 			}
 		}
 		catch (error) {
-			// This should be made more verbose so the errors will be more helpful
-			console.log('Error setting status in a job');
+			console.log(error + ': Error setting \"' + status + '\" as a status');
 		}
 	};
 
@@ -103,4 +95,8 @@ class Job {
 module.exports = Job;
 
 // console.log(Job.getAvailableStatuses());
+
+// const anime = new Job(1, 1, 1, 1, 1, 1, 'COMPLETED');
+
+// const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
 
