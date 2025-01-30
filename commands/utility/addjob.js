@@ -1,9 +1,6 @@
 const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const manager = require('../../src/jobsManager.js');
-
-console.log(manager.Job.getAvailableStatuses);
-
+const Job = require('../../src/jobsManager.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -46,12 +43,6 @@ module.exports = {
 				.setRequired(true)
 				.addChoices(
 					Job.getAvailableStatuses()
-
-
-					// // Should this be in separate file for easy lookup?
-					// { name: 'Completed', value: 'completed' },
-					// { name: 'In Progress', value: 'inProgress' },
-					// { name: 'Unassigned', value: 'unassigned' },
 				))
 		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
 			PermissionFlagsBits.AttachFiles |

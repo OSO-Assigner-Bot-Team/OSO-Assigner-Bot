@@ -1,6 +1,6 @@
 // module.exports is required to use the class outside this file but for some reason it's not working
 // Job becomes unidentified
-module.exports = class Job {
+class Job {
 	constructor(scene_id, description, attachments, attributes, required_roles, deadline, status) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
@@ -10,7 +10,11 @@ module.exports = class Job {
 		this.setDeadline(deadline);
 		this.setStatus(status);
 	}
+	// names that are saved in a file
 	static available_statuses = ['COMPLETED', 'IN_PROGRESS', 'UNASSIGNED'];
+	// names that should display in discord
+	static available_statuses_names = ['Completed', 'In Progress', 'Unassigned'];
+
 
 
 	getSceneId() {
@@ -40,9 +44,15 @@ module.exports = class Job {
 		return this.status;
 	};
 
-	// Returns an array with what are correct values for `status` field
+	// Returns an array of Objects with name: and value: pair
 	static getAvailableStatuses() {
-		return this.available_statuses;
+		// Should this be made to return different things depending on circumstance?
+		let return_object = [];
+		for (let i = 0; i < this.available_statuses.length; i++){
+			return_object.push({name:this.available_statuses_names[i], value:this.available_statuses[i]})
+		};
+		// console.log(return_object)
+		return return_object;
 	};
 
 	setSceneId(scene_id) {
@@ -92,4 +102,9 @@ module.exports = class Job {
 
 };
 
-console.log(Job.getAvailableStatuses())
+// console.log(Job.getAvailableStatuses())
+
+module.exports = Job;
+
+// console.log(Job.getAvailableStatuses());
+
