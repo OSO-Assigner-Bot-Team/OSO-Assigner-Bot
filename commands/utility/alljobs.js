@@ -23,12 +23,12 @@ module.exports = {
 			// Are we at the header?
 			if (i[0] == 'SceneId') {
 				// Create formatted header
-				table = table.concat('__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status__\n');
+				table = table.concat('__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n');
 				continue;
 			}
 
 			// Create row
-			table = table.concat(`${i[0]}, "${i[1]}", ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}\n`);
+			table = table.concat(`${i[0]}, "${i[1]}", ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}, ${i[7]}, ${i[7]}}\n`);
 		}
 
 		interaction.reply(table);
