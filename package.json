@@ -1,6 +1,6 @@
 {
   "name": "oso-assigner-bot",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Self-assigning bot for the production for Open Source Objects.",
   "keywords": [
     "oso",
