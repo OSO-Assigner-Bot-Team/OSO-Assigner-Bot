@@ -85,7 +85,7 @@ class Job {
 			}
 		}
 		catch (error) {
-			console.log(error + ': Error setting \"' + status + '\" as a status');
+			console.log(error + ': Error setting "' + status + '" as a status');
 		}
 	};
 
