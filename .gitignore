@@ -1,5 +1,4 @@
 # SENSITIVE INFO
-config.json
 config.prod.json
 config.dev.json
 
