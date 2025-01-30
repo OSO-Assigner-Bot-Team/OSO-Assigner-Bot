@@ -67,21 +67,45 @@ module.exports = {
 		const status = interaction.options.getString('status');
 
 		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},${required_roles},${deadline},${status}\n`);
+			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A\n`);
 		}
 		else {
-			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status\n');
-			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},${required_roles},${deadline},${status}\n`);
+			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n');
+			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A\n`);
 		}
 
-		interaction.reply(`
-## The following job has been created.\n
+		interaction.reply({ content: `
+## The following job has been created. First person to react with ✅ gets it!.\n
 * Scene ID: ${scene_id}
 * Description: ${description}
 * Attachments: ${attachments}
 * Attributes: ${attributes}
 * Required roles: ${required_roles}
 * Deadline: ${deadline}
-* Status: ${status}`);
+* Status: ${status}`, withResponse: true }).then((message) => {
+			const collectorFilter = reaction => {
+				return reaction.emoji.name === '✅';
+			};
+
+			// 900,000 milliseconds is 15 minutes, for now it's 10 seconds so that testing doesn't take forever
+			const collector = message.createReactionCollector({ filter: collectorFilter, time: 10_000 });
+
+			collector.on('collect', (reaction, user) => {
+				console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+				interaction.client.users.send(user.id, `
+You have been assigned the following job:
+Scene ID: ${scene_id}
+
+Description: ${description}
+
+Attachments: ${attachments}
+
+Attributes: ${attributes}
+
+Your deadline is ${deadline}.
+
+If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
+			});
+		}).catch(console.error);
 	},
 };
