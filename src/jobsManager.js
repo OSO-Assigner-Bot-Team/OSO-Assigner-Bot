@@ -10,12 +10,10 @@ class Job {
 		this.setDeadline(deadline);
 		this.setStatus(status);
 	}
-	// names that are saved in a file
+	// Names that are saved in a file
 	static available_statuses = ['COMPLETED', 'IN_PROGRESS', 'UNASSIGNED'];
-	// names that should display in discord
+	// Names that should be displayed in Discord
 	static available_statuses_names = ['Completed', 'In Progress', 'Unassigned'];
-
-
 
 	getSceneId() {
 		return this.scene_id;
@@ -47,9 +45,11 @@ class Job {
 	// Returns an array of Objects with name: and value: pair
 	static getAvailableStatuses() {
 		// Should this be made to return different things depending on circumstance?
-		let return_object = [];
-		for (let i = 0; i < this.available_statuses.length; i++){
-			return_object.push({name:this.available_statuses_names[i], value:this.available_statuses[i]})
+		const return_object = [];
+		for (let i = 0; i < this.available_statuses.length; i++) {
+			return_object.push(
+				{ name:this.available_statuses_names[i], value:this.available_statuses[i] },
+			);
 		};
 		// console.log(return_object)
 		return return_object;
@@ -81,8 +81,6 @@ class Job {
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
 		try {
-			// console.log(status);
-			// console.log(Job.available_statuses.includes(status))
 			this.status = status;
 
 
@@ -101,8 +99,6 @@ class Job {
 
 
 };
-
-// console.log(Job.getAvailableStatuses())
 
 module.exports = Job;
 

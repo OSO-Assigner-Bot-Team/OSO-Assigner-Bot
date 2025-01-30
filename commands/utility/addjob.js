@@ -41,9 +41,7 @@ module.exports = {
 				.setName('status')
 				.setDescription('Status')
 				.setRequired(true)
-				.addChoices(
-					Job.getAvailableStatuses()
-				))
+				.addChoices(Job.getAvailableStatuses()))
 		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
 			PermissionFlagsBits.AttachFiles |
 			PermissionFlagsBits.ReadMessageHistory |
