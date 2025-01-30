@@ -1,8 +1,10 @@
 # SENSITIVE INFO
-config.json
+config.prod.json
+config.dev.json
 
 # Database
-jobs.v0.csv
+jobs.*.csv
+jobs.csv
 
 # Logs
 logs
