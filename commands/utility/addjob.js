@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const Job = require('../../src/jobsManager.js');
 
+// Besides being the command to add jobs, this file also handles the reaction and DM functionality
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addjob')
