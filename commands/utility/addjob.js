@@ -70,25 +70,27 @@ module.exports = {
 			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
 		}
 
-		interaction.reply({ content: `
-## The following job has been created. First person to react with ✅ gets it!.\n
+		interaction.reply(`
+## The following job has been created. First person to react with ✅ gets it!\n
 * Scene ID: ${scene_id}
 * Description: ${description}
 * Attachments: ${attachments}
 * Attributes: ${attributes}
 * Required roles: ${required_roles}
 * Deadline: ${deadline}
-* Status: ${status}`, withResponse: true }).then((message) => {
-			const collectorFilter = reaction => {
-				return reaction.emoji.name === '✅';
-			};
+* Status: ${status}`);
 
-			// 900,000 milliseconds is 15 minutes, for now it's 10 seconds so that testing doesn't take forever
-			const collector = message.createReactionCollector({ filter: collectorFilter, time: 10_000 });
+		const message = await interaction.fetchReply();
 
-			collector.on('collect', (reaction, user) => {
-				console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-				interaction.client.users.send(user.id, `
+		const collectorFilter = reaction => {
+			return reaction.emoji.name === '✅';
+		};
+
+		const collector = message.createReactionCollector({ filter: collectorFilter });
+
+		collector.on('collect', (reaction, user) => {
+			console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+			interaction.client.users.send(user.id, `
 You have been assigned the following job:
 Scene ID: ${scene_id}
 
@@ -101,7 +103,6 @@ Attributes: ${attributes}
 Your deadline is ${deadline}.
 
 If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
-			});
-		}).catch(console.error);
+		});
 	},
 };
