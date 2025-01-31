@@ -63,11 +63,11 @@ module.exports = {
 		const status = interaction.options.getString('status');
 
 		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A\n`);
+			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
 		}
 		else {
-			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n');
-			fs.appendFileSync('jobs.v0.csv', `${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A\n`);
+			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work');
+			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
 		}
 
 		interaction.reply({ content: `
