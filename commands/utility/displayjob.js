@@ -33,7 +33,9 @@ module.exports = {
 * Attributes: ${i[3]}
 * Required roles: ${i[4]}
 * Deadline: ${i[5]}
-* Status: ${i[6]}`);
+* Status: ${i[6]}
+* Assignee: ${i[7]}
+* Work: ${i[8]}`);
 			}
 		}
 	},
