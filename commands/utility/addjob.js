@@ -72,7 +72,7 @@ module.exports = {
 		}
 
 		interaction.reply(`
-## The following job has been created. First person to react with ✅ gets it!\n
+## The following job has been created. First person with the required roles to react with ✅ gets it!\n
 * Scene ID: ${scene_id}
 * Description: ${description}
 * Attachments: ${attachments}
