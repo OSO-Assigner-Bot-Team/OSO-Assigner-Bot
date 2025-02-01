@@ -91,7 +91,7 @@ module.exports = {
 
 		collector.on('collect', (reaction, user) => {
 			console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-			interaction.client.users.send(user.id, `
+			client.users.send(user.id, `
 You have been assigned the following job:
 Scene ID: ${scene_id}
 
