@@ -51,16 +51,24 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
-		// how would scene ID work? shouldn't it be automatic?
-		const scene_id = interaction.options.getString('scene_id');
-		// sanitize input. There shouldn't be any commas in the fields.
-		const description = interaction.options.getString('description');
-		const attachments = interaction.options.getString('attachments');
-		const attributes = interaction.options.getString('attributes');
-		const required_roles = interaction.options.getString('required_roles');
-		// deadline would need to be checked for valid date
-		const deadline = interaction.options.getString('deadline');
-		const status = interaction.options.getString('status');
+
+		// Pipe all inputs through Job class so the setters can validate the input
+		const pipe_job = new Job(
+			interaction.options.getString('scene_id'),
+			interaction.options.getString('description'),
+			interaction.options.getString('attachments'),
+			interaction.options.getString('attributes'),
+			interaction.options.getString('required_roles'),
+			interaction.options.getString('deadline'),
+			interaction.options.getString('status'));
+
+		const scene_id = pipe_job.getSceneId();
+		const description = pipe_job.getDescription();
+		const attachments = pipe_job.getAttachments();
+		const attributes = pipe_job.getAttributes();
+		const required_roles = pipe_job.getRequiredRoles();
+		const deadline = pipe_job.getDeadline();
+		const status = pipe_job.getStatus();
 
 		if (fs.existsSync('jobs.v0.csv')) {
 			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
