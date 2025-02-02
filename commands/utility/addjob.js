@@ -2,7 +2,6 @@ const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const Job = require('../../src/jobsManager.js');
 
-// Besides being the command to add jobs, this file also handles the reaction and DM functionality
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addjob')
@@ -72,7 +71,7 @@ module.exports = {
 		}
 
 		interaction.reply(`
-## The following job has been created. First person with the required roles to react with ✅ gets it!\n
+## The following job has been created. First person with the required roles to use /getjob gets it!\n
 * Scene ID: ${scene_id}
 * Description: ${description}
 * Attachments: ${attachments}
@@ -80,30 +79,5 @@ module.exports = {
 * Required roles: ${required_roles}
 * Deadline: ${deadline}
 * Status: ${status}`);
-
-		const message = await interaction.fetchReply();
-
-		const collectorFilter = reaction => {
-			return reaction.emoji.name === '✅';
-		};
-
-		const collector = message.createReactionCollector({ filter: collectorFilter });
-
-		collector.on('collect', (reaction, user) => {
-			console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
-			client.users.send(user.id, `
-You have been assigned the following job:
-Scene ID: ${scene_id}
-
-Description: ${description}
-
-Attachments: ${attachments}
-
-Attributes: ${attributes}
-
-Your deadline is ${deadline}.
-
-If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
-		});
 	},
 };
