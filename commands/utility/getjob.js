@@ -29,15 +29,15 @@ module.exports = {
 				interaction.user.send(`
 You have been assigned the following job:
 
-Scene ID: ${i[0]}
+**Scene ID:** ${i[0]}
 
-Description: ${i[1]}
+**Description:** ${i[1]}
 
-Attachments: ${i[2]}
+**Attachments:** ${i[2]}
 
-Attributes: ${i[3]}
+**Attributes:** ${i[3]}
 
-Your deadline is ${i[5]}.
+Your deadline is **${i[5]}**.
 
 If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
 			}
