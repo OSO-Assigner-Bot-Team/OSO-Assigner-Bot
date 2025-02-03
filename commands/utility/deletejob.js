@@ -6,18 +6,18 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('deletejob')
 		.setDescription('Deletes the specified job.')
-		.addStringOption(option =>
-			option
-				.setName('scene_id')
-				.setDescription('Scene ID whose job to delete')
-				.setRequired(true))
-		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
-			PermissionFlagsBits.AttachFiles |
-			PermissionFlagsBits.ReadMessageHistory |
-			PermissionFlagsBits.AddReactions |
-			PermissionFlagsBits.UseApplicationCommands |
-			PermissionFlagsBits.SendPolls |
-			PermissionFlagsBits.ViewChannel),
+		.addStringOption((option) =>
+			option.setName('scene_id').setDescription('Scene ID whose job to delete').setRequired(true)
+		)
+		.setDefaultMemberPermissions(
+			PermissionFlagsBits.SendMessages |
+				PermissionFlagsBits.AttachFiles |
+				PermissionFlagsBits.ReadMessageHistory |
+				PermissionFlagsBits.AddReactions |
+				PermissionFlagsBits.UseApplicationCommands |
+				PermissionFlagsBits.SendPolls |
+				PermissionFlagsBits.ViewChannel
+		),
 
 	async execute(interaction) {
 		const scene_id = interaction.options.getString('scene_id').toUpperCase();
