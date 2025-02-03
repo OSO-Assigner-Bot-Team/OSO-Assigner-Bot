@@ -53,11 +53,7 @@ module.exports = {
 			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
 		}
 		else {
-			fs.appendFileSync(
-				'jobs.v0.csv',
-				'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
-			);
-			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
+			throw new TypeError('jobs.v0.csv doesn\'t exist');
 		}
 
 		interaction.reply(`
@@ -67,7 +63,7 @@ module.exports = {
 * Attachments: ${pipe_job.getAttachments()}
 * Attributes: ${pipe_job.getAttributes()}
 * Required roles: ${pipe_job.getAttachments()}
-* Deadline: ${pipe_job.getDeadline()}
+* Deadline: ${pipe_job.getDeadlineFormatted()}
 * Status: ${pipe_job.getStatus()}`);
 	},
 };

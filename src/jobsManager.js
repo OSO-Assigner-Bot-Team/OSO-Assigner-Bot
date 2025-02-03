@@ -1,10 +1,19 @@
 // Data format validation should also be done here.
-// const fs = require('node:fs');
+const fs = require('node:fs');
 const { stringify } = require('csv/sync');
+const chrono = require('chrono-node');
+const discord = require('discord.js');
+
+if (!fs.existsSync('jobs.v0.csv')) {
+	fs.appendFileSync(
+		'jobs.v0.csv',
+		'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
+	);
+}
 
 class Job {
 	// What if we want to edit only one value?
-	constructor(scene_id, description, attachments, attributes, required_roles, deadline, status) {
+	constructor(scene_id, description = null, attachments = null, attributes = null, required_roles = null, deadline = null, status = null) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
 		this.setAttachments(attachments);
@@ -22,13 +31,13 @@ class Job {
 
 	getJobArray() {
 		return [
-			this.scene_id,
-			this.description,
-			this.attachments,
-			this.attributes,
-			this.required_roles,
-			this.deadline,
-			this.status,
+			this.getSceneId(),
+			this.getDescription(),
+			this.getAttachments(),
+			this.getAttributes(),
+			this.getRequiredRoles(),
+			this.getDeadline(),
+			this.getStatus(),
 		];
 	}
 
@@ -37,30 +46,35 @@ class Job {
 	}
 
 	getSceneId() {
-		return this.scene_id;
+		return this.scene_id == null ? 'N/A' : this.scene_id.toString();
 	}
 	getDescription() {
-		return this.description;
+		return this.description == null ? 'N/A' : this.description.toString();
 	}
 
 	getAttachments() {
-		return this.attachments;
+		return this.attachments == null ? 'N/A' : this.attachments.toString();
 	}
 
 	getAttributes() {
-		return this.attributes;
+		return this.attributes == null ? 'N/A' : this.attributes.toString();
 	}
 
 	getRequiredRoles() {
-		return this.required_roles;
+		return this.required_roles == null ? 'N/A' : this.required_roles.toString();
 	}
 
 	getDeadline() {
 		return this.deadline;
 	}
 
+	// Return a deadline in discord timestamp
+	getDeadlineFormatted() {
+		return discord.time(this.deadline);
+	}
+
 	getStatus() {
-		return this.status;
+		return this.status.toString();
 	}
 
 	// Returns an array of Objects with name: and value: pair
@@ -71,6 +85,7 @@ class Job {
 	setSceneId(scene_id) {
 		this.scene_id = scene_id.toString().toUpperCase();
 	}
+
 	setDescription(description) {
 		this.description = description;
 	}
@@ -88,7 +103,7 @@ class Job {
 	}
 
 	setDeadline(deadline) {
-		this.deadline = deadline;
+		this.deadline = chrono.parseDate(deadline);
 	}
 
 	// For correct values use Job.getAvailableStatuses()
@@ -100,7 +115,7 @@ class Job {
 			}
 		}
 		if (this.status === undefined || this.status === null || this.status !== status) {
-			throw new TypeError(`"${status}\" is an invalid status`);
+			throw new TypeError(`"${status}" is an invalid status`);
 		}
 		// }
 		// catch (error) {
@@ -118,3 +133,4 @@ module.exports = Job;
 // console.log(anime.getCSVString());
 
 // const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
+
