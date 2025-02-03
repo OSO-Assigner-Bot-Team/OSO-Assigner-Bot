@@ -16,4 +16,4 @@ jobs:
      - name: Deploy the app
        uses: digitalocean/app_action/deploy@v2
        with:
-         token: $API_Key
+          token: ${{ secrets.OAB_TOKEN }}
