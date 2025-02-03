@@ -1,0 +1,15 @@
+name: assigner
+region: SFO3
+
+services:
+        - name: assigner
+          dockerfile_path: ./Dockerfile
+          envs:
+                  - key: NODE_ENV
+                    value: production
+          instance_count: 1
+          instance_size_slug: basic-xxs
+          github:
+                  repo: OSO-Assigner-Bot-Team/OSO-Assigner-Bot
+                  branch: main
+                  deploy_on_push: true
