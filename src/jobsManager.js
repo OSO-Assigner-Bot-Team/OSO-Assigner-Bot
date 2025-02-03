@@ -1,5 +1,7 @@
-// module.exports is required to use the class outside this file but for some reason it's not working
-// Job becomes unidentified
+// Data format validation should also be done here.
+// const fs = require('node:fs');
+// const { parse } = require('csv/sync');
+
 class Job {
 	constructor(scene_id, description, attachments, attributes, required_roles, deadline, status) {
 		this.setSceneId(scene_id);
@@ -17,8 +19,21 @@ class Job {
 		{ name: 'In Progress', value: 'IN_PROGRESS' },
 		{ name: 'Unassigned', value: 'UNASSIGNED' }];
 
+
+	getJobArray() {
+		return [
+			this.scene_id,
+			this.description,
+			this.attachments,
+			this.attributes,
+			this.required_roles,
+			this.deadline,
+			this.status];
+	}
+
+
 	getSceneId() {
-		return this.scene_id;
+		return this.scene_id.toUpperCase();
 	}
 	getDescription() {
 		return this.description;
@@ -50,7 +65,7 @@ class Job {
 	};
 
 	setSceneId(scene_id) {
-		this.scene_id = scene_id;
+		this.scene_id = scene_id.toUpperCase();
 	}
 	setDescription(description) {
 		this.description = description;
@@ -74,19 +89,19 @@ class Job {
 
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
-		try {
+		// try {
 			for (const x of Job.available_statuses) {
 				if (x.value == status) {
 					this.status = status;
 				}
 			}
-			if (this.status == undefined | this.status !== status) {
-				throw new TypeError('Wrong Status');
+		if (this.status === undefined || this.status === null || this.status !== status) {
+			throw new TypeError(`"${status}\" is an invalid status`);
 			}
-		}
-		catch (error) {
-			console.log(error + ': Error setting "' + status + '" as a status');
-		}
+		// }
+		// catch (error) {
+		// 	console.log(error + ': Error setting "' + status + '" as a status');
+		// }
 	};
 
 

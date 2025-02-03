@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const Job = require('../../src/jobsManager.js');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -34,7 +36,8 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName('status')
-				.setDescription('Status'))
+				.setDescription('Status')
+				.addChoices(Job.getAvailableStatuses()))
 		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
 			PermissionFlagsBits.AttachFiles |
 			PermissionFlagsBits.ReadMessageHistory |
@@ -54,7 +57,7 @@ module.exports = {
 
 		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
 
-		function getCurrentJob(id) {
+		function getCurrentScene(id) {
 			for (const i in jobs) {
 				if (Object.prototype.hasOwnProperty.call(jobs, i)) {
 					if (id === jobs[i][0]) {
@@ -64,7 +67,7 @@ module.exports = {
 			}
 		}
 
-		const current_scene = getCurrentJob(scene_id);
+		const current_scene = getCurrentScene(scene_id);
 		console.log(current_scene);
 		const new_scene = [scene_id, description, attachments, attributes, required_roles, deadline, status];
 
