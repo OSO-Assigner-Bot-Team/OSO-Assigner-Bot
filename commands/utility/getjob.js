@@ -6,18 +6,16 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('getjob')
 		.setDescription('Gets you the specified job.')
-		.addStringOption(option =>
-			option
-				.setName('scene_id')
-				.setDescription('Scene ID')
-				.setRequired(true))
-		.setDefaultMemberPermissions(PermissionFlagsBits.SendMessages |
-			PermissionFlagsBits.AttachFiles |
-			PermissionFlagsBits.ReadMessageHistory |
-			PermissionFlagsBits.AddReactions |
-			PermissionFlagsBits.UseApplicationCommands |
-			PermissionFlagsBits.SendPolls |
-			PermissionFlagsBits.ViewChannel),
+		.addStringOption((option) => option.setName('scene_id').setDescription('Scene ID').setRequired(true))
+		.setDefaultMemberPermissions(
+			PermissionFlagsBits.SendMessages |
+				PermissionFlagsBits.AttachFiles |
+				PermissionFlagsBits.ReadMessageHistory |
+				PermissionFlagsBits.AddReactions |
+				PermissionFlagsBits.UseApplicationCommands |
+				PermissionFlagsBits.SendPolls |
+				PermissionFlagsBits.ViewChannel
+		),
 
 	async execute(interaction) {
 		const scene_id = interaction.options.getString('scene_id');

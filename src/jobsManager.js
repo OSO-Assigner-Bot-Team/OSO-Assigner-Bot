@@ -14,12 +14,11 @@ class Job {
 		this.setStatus(status);
 	}
 
-
 	static available_statuses = [
 		{ name: 'Completed', value: 'COMPLETED' },
 		{ name: 'In Progress', value: 'IN_PROGRESS' },
-		{ name: 'Unassigned', value: 'UNASSIGNED' }];
-
+		{ name: 'Unassigned', value: 'UNASSIGNED' },
+	];
 
 	getJobArray() {
 		return [
@@ -29,13 +28,13 @@ class Job {
 			this.attributes,
 			this.required_roles,
 			this.deadline,
-			this.status];
+			this.status,
+		];
 	}
 
 	getCSVString() {
 		return stringify([this.getJobArray()]).trimEnd();
 	}
-
 
 	getSceneId() {
 		return this.scene_id;
@@ -46,28 +45,28 @@ class Job {
 
 	getAttachments() {
 		return this.attachments;
-	};
+	}
 
 	getAttributes() {
 		return this.attributes;
-	};
+	}
 
 	getRequiredRoles() {
 		return this.required_roles;
-	};
+	}
 
 	getDeadline() {
 		return this.deadline;
-	};
+	}
 
 	getStatus() {
 		return this.status;
-	};
+	}
 
 	// Returns an array of Objects with name: and value: pair
 	static getAvailableStatuses() {
 		return this.available_statuses;
-	};
+	}
 
 	setSceneId(scene_id) {
 		this.scene_id = scene_id.toString().toUpperCase();
@@ -78,34 +77,37 @@ class Job {
 
 	setAttachments(attachments) {
 		this.attachments = attachments;
-	};
+	}
 
 	setAttributes(attributes) {
 		this.attributes = attributes;
-	};
+	}
 
 	setRequiredRoles(required_roles) {
 		this.required_roles = required_roles;
-	};
+	}
 
 	setDeadline(deadline) {
 		this.deadline = deadline;
-	};
+	}
 
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
+		// try {
 		for (const x of Job.available_statuses) {
 			if (x.value == status) {
 				this.status = status;
 			}
 		}
 		if (this.status === undefined || this.status === null || this.status !== status) {
-			throw new TypeError(`"${status}" is an invalid status`);
+			throw new TypeError(`"${status}\" is an invalid status`);
 		}
-	};
-
-
-};
+		// }
+		// catch (error) {
+		// 	console.log(error + ': Error setting "' + status + '" as a status');
+		// }
+	}
+}
 
 module.exports = Job;
 
@@ -116,4 +118,3 @@ module.exports = Job;
 // console.log(anime.getCSVString());
 
 // const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
-
