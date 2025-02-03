@@ -62,30 +62,23 @@ module.exports = {
 			interaction.options.getString('deadline'),
 			interaction.options.getString('status'));
 
-		const scene_id = pipe_job.getSceneId();
-		const description = pipe_job.getDescription();
-		const attachments = pipe_job.getAttachments();
-		const attributes = pipe_job.getAttributes();
-		const required_roles = pipe_job.getRequiredRoles();
-		const deadline = pipe_job.getDeadline();
-		const status = pipe_job.getStatus();
-
 		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
+			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
 		}
 		else {
-			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work');
-			fs.appendFileSync('jobs.v0.csv', `\n${scene_id},"${description}",${attachments},${attributes},"${required_roles}",${deadline},${status},N/A,N/A`);
+
+			fs.appendFileSync('jobs.v0.csv', 'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n');
+			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
 		}
 
 		interaction.reply(`
 ## The following job has been created. First person with the required roles to use /getjob gets it!\n
-* Scene ID: ${scene_id}
-* Description: ${description}
-* Attachments: ${attachments}
-* Attributes: ${attributes}
-* Required roles: ${required_roles}
-* Deadline: ${deadline}
-* Status: ${status}`);
+* Scene ID: ${pipe_job.getSceneId()}
+* Description: ${pipe_job.getDescription()}
+* Attachments: ${pipe_job.getAttachments()}
+* Attributes: ${pipe_job.getAttributes()}
+* Required roles: ${pipe_job.getAttachments()}
+* Deadline: ${pipe_job.getDeadline()}
+* Status: ${pipe_job.getStatus()}`);
 	},
 };

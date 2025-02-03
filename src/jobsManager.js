@@ -1,8 +1,9 @@
 // Data format validation should also be done here.
 // const fs = require('node:fs');
-// const { parse } = require('csv/sync');
+const { stringify } = require('csv/sync');
 
 class Job {
+	// What if we want to edit only one value?
 	constructor(scene_id, description, attachments, attributes, required_roles, deadline, status) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
@@ -31,9 +32,13 @@ class Job {
 			this.status];
 	}
 
+	getCSVString() {
+		return stringify([this.getJobArray()]).trimEnd();
+	}
+
 
 	getSceneId() {
-		return this.scene_id.toUpperCase();
+		return this.scene_id;
 	}
 	getDescription() {
 		return this.description;
@@ -65,7 +70,7 @@ class Job {
 	};
 
 	setSceneId(scene_id) {
-		this.scene_id = scene_id.toUpperCase();
+		this.scene_id = scene_id.toString().toUpperCase();
 	}
 	setDescription(description) {
 		this.description = description;
@@ -89,19 +94,14 @@ class Job {
 
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
-		// try {
-			for (const x of Job.available_statuses) {
-				if (x.value == status) {
-					this.status = status;
-				}
+		for (const x of Job.available_statuses) {
+			if (x.value == status) {
+				this.status = status;
 			}
+		}
 		if (this.status === undefined || this.status === null || this.status !== status) {
-			throw new TypeError(`"${status}\" is an invalid status`);
-			}
-		// }
-		// catch (error) {
-		// 	console.log(error + ': Error setting "' + status + '" as a status');
-		// }
+			throw new TypeError(`"${status}" is an invalid status`);
+		}
 	};
 
 
@@ -111,7 +111,9 @@ module.exports = Job;
 
 // console.log(Job.getAvailableStatuses());
 
-// const anime = new Job(1, 1, 1, 1, 1, 1, 'COMPLETED');
+// const anime = new Job("bruh", 1, 1, 1, 1, 1, 'COMPLETED');
+// console.log(anime.getJobArray());
+// console.log(anime.getCSVString());
 
 // const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
 
