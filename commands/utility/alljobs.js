@@ -3,6 +3,8 @@ const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const Job = require('../../src/jobsManager');
 
+const DATAFILE = 'jobs.v0.csv';
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('alljobs')
@@ -18,7 +20,7 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
+		const jobs = parse(fs.readFileSync(DATAFILE));
 		const scene = new Job();
 		let table = '';
 

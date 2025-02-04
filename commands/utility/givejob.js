@@ -3,6 +3,8 @@ const Job = require('../../src/jobsManager.js');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
+const DATAFILE = 'jobs.v0.csv';
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('givejob')
@@ -28,7 +30,7 @@ module.exports = {
 	async execute(interaction) {
 		// const pipe_job = new Job(interaction.options.getString('scene_id'));
 		const scene_id = interaction.options.getString('scene_id');
-		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
+		const jobs = parse(fs.readFileSync(DATAFILE));
 		const member = interaction.options.getMember('target');
 
 		console.log(member.roles.cache);

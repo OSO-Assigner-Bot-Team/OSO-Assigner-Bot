@@ -2,6 +2,8 @@ const fs = require('node:fs');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
+const DATAFILE = 'jobs.v0.csv';
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('displayjob')
@@ -20,7 +22,7 @@ module.exports = {
 	async execute(interaction) {
 		const scene_id = interaction.options.getString('scene_id');
 
-		const scene = parse(fs.readFileSync('jobs.v0.csv'));
+		const scene = parse(fs.readFileSync(DATAFILE));
 
 		for (const i of scene) {
 			if (scene_id.toUpperCase() === i[0]) {

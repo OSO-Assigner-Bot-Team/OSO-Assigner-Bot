@@ -2,6 +2,8 @@ const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const Job = require('../../src/jobsManager.js');
 
+const DATAFILE = 'jobs.v0.csv';
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addjob')
@@ -60,11 +62,11 @@ module.exports = {
 			interaction.options.getString('status'),
 		);
 
-		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString());
+		if (fs.existsSync(DATAFILE)) {
+			fs.appendFileSync(DATAFILE, pipe_job.getCSVString());
 		}
 		else {
-			throw new TypeError('jobs.v0.csv doesn\'t exist');
+			throw new TypeError(`${DATAFILE} doesn't exist`);
 		}
 
 		interaction.reply(`
