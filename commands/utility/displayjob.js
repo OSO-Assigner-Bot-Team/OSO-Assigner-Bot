@@ -14,7 +14,7 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {

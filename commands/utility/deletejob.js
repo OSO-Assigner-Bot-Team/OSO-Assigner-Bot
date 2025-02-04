@@ -7,7 +7,7 @@ module.exports = {
 		.setName('deletejob')
 		.setDescription('Deletes the specified job.')
 		.addStringOption((option) =>
-			option.setName('scene_id').setDescription('Scene ID whose job to delete').setRequired(true)
+			option.setName('scene_id').setDescription('Scene ID whose job to delete').setRequired(true),
 		)
 		.setDefaultMemberPermissions(
 			PermissionFlagsBits.SendMessages |
@@ -16,7 +16,7 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {

@@ -14,12 +14,12 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {
 		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
-		let scene = new Job();
+		const scene = new Job();
 		let table = '';
 
 		for (const i of jobs) {
@@ -27,7 +27,7 @@ module.exports = {
 			if (i[0] == 'SceneId') {
 				// Create formatted header
 				table = table.concat(
-					'__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n'
+					'__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n',
 				);
 				continue;
 			}

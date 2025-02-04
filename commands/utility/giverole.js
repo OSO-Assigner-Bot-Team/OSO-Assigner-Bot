@@ -5,10 +5,10 @@ module.exports = {
 		.setName('giverole')
 		.setDescription('Gives the chosen user the chosen role.')
 		.addRoleOption((option) =>
-			option.setName('role').setDescription('Role to give to user').setRequired(true)
+			option.setName('role').setDescription('Role to give to user').setRequired(true),
 		)
 		.addUserOption((option) =>
-			option.setName('target').setDescription('User to give role to').setRequired(true)
+			option.setName('target').setDescription('User to give role to').setRequired(true),
 		)
 		.setDefaultMemberPermissions(
 			PermissionFlagsBits.SendMessages |
@@ -17,7 +17,7 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {
@@ -26,7 +26,8 @@ module.exports = {
 
 		if (member.roles.cache.some((role_to_check) => role_to_check.name === role.name)) {
 			interaction.reply(`${member} already has the role ${role}.`);
-		} else {
+		}
+		else {
 			member.roles.add(role);
 			interaction.reply(`${member} has been given the role ${role}.`);
 		}
