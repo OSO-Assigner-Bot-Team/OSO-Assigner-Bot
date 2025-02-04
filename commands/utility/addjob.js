@@ -39,7 +39,18 @@ module.exports = {
 
 	async execute(interaction) {
 		// Pipe all inputs through Job class so the setters can validate the input
-		const pipe_job = new Job(
+		const pipe_job = new Job(interaction.options.getString('scene_id'));
+
+		// Hacky way to check if there is job with the same ID
+		// if (pipe_job.getDescription != 'N/A') {
+		// 	console.log(pipe_job.getJob());
+		// 	console.log(pipe_job.scene_id);
+
+		// 	throw new TypeError(`Can't add a job: "${interaction.options.getString('scene_id')}" already exists`)
+		// }
+
+
+		pipe_job.addJob(
 			interaction.options.getString('scene_id'),
 			interaction.options.getString('description'),
 			interaction.options.getString('attachments'),
@@ -50,7 +61,7 @@ module.exports = {
 		);
 
 		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
+			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString());
 		}
 		else {
 			throw new TypeError('jobs.v0.csv doesn\'t exist');

@@ -1,19 +1,54 @@
 // Data format validation should also be done here.
 const fs = require('node:fs');
-const { stringify } = require('csv/sync');
+const { stringify, parse } = require('csv/sync');
 const chrono = require('chrono-node');
 const discord = require('discord.js');
 
-if (!fs.existsSync('jobs.v0.csv')) {
+const DATAFILE = 'jobs.v0.csv';
+
+if (!fs.existsSync(DATAFILE)) {
 	fs.appendFileSync(
-		'jobs.v0.csv',
+		DATAFILE,
 		'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
 	);
 }
 
+
 class Job {
-	// What if we want to edit only one value?
-	constructor(scene_id, description = null, attachments = null, attributes = null, required_roles = null, deadline = null, status = null) {
+
+	constructor(scene_id = null) {
+		if (!fs.existsSync(DATAFILE)) {
+			fs.appendFileSync(
+				DATAFILE,
+				'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
+			);
+		}
+		if (scene_id === null || scene_id === undefined) {
+			this.scene_id = null;
+			this.description = null;
+			this.attachments = null;
+			this.attributes = null;
+			this.required_roles = null;
+			this.deadline = null;
+			this.status = null;
+			this.assignee = null;
+			this.work = null;
+		}
+		else {
+			const jobs = parse(fs.readFileSync(DATAFILE));
+			for (const i in jobs) {
+				if (Object.prototype.hasOwnProperty.call(jobs, i)) {
+					if (scene_id === jobs[i][0]) {
+						this.setJob(jobs[i]);
+					}
+				}
+			}
+		}
+
+	}
+
+
+	addJob(scene_id, description = null, attachments = null, attributes = null, required_roles = null, deadline = null, status = null) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
 		this.setAttachments(attachments);
@@ -29,7 +64,7 @@ class Job {
 		{ name: 'Unassigned', value: 'UNASSIGNED' },
 	];
 
-	getJobArray() {
+	getJob() {
 		return [
 			this.getSceneId(),
 			this.getDescription(),
@@ -38,11 +73,25 @@ class Job {
 			this.getRequiredRoles(),
 			this.getDeadline(),
 			this.getStatus(),
+			this.getAssignee(),
+			this.getWork(),
 		];
 	}
 
+	setJob(scene = Array(9)) {
+		this.setSceneId(scene[0]);
+		this.setDescription(scene[1]);
+		this.setAttachments(scene[2]);
+		this.setAttributes(scene[3]);
+		this.setRequiredRoles(scene[4]);
+		this.setDeadline(scene[5]);
+		this.setStatus(scene[6]);
+		this.setAssignee(scene[7]);
+		this.setWork(scene[8]);
+	}
+
 	getCSVString() {
-		return stringify([this.getJobArray()]).trimEnd();
+		return stringify([this.getJob()]).trimEnd();
 	}
 
 	getSceneId() {
@@ -74,13 +123,23 @@ class Job {
 	}
 
 	getStatus() {
-		return this.status.toString();
+		return this.status == null ? 'N/A' : this.status.toString();
 	}
+
+	getAssignee() {
+		return this.assignee == null ? 'N/A' : this.assignee.toString();
+	}
+
+	getWork() {
+		return this.work == null ? 'N/A' : this.work.toString();
+	}
+
 
 	// Returns an array of Objects with name: and value: pair
 	static getAvailableStatuses() {
 		return this.available_statuses;
 	}
+
 
 	setSceneId(scene_id) {
 		this.scene_id = scene_id.toString().toUpperCase();
@@ -108,19 +167,22 @@ class Job {
 
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status) {
-		// try {
 		for (const x of Job.available_statuses) {
 			if (x.value == status) {
 				this.status = status;
 			}
 		}
-		if (this.status === undefined || this.status === null || this.status !== status) {
+		if (this.status === undefined || this.status !== status) {
 			throw new TypeError(`"${status}" is an invalid status`);
 		}
-		// }
-		// catch (error) {
-		// 	console.log(error + ': Error setting "' + status + '" as a status');
-		// }
+	}
+
+	setAssignee(assignee) {
+		this.assignee = assignee;
+	}
+
+	setWork(work) {
+		this.work = work;
 	}
 }
 

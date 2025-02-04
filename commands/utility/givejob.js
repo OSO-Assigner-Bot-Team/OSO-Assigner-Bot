@@ -26,6 +26,7 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
+		// const pipe_job = new Job(interaction.options.getString('scene_id'));
 		const scene_id = interaction.options.getString('scene_id');
 		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
 		const member = interaction.options.getMember('target');
