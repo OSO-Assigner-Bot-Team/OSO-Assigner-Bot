@@ -1,6 +1,5 @@
 # SENSITIVE INFO
-config.prod.json
-config.dev.json
+.env
 
 # Database
 jobs.*.csv
