@@ -16,6 +16,15 @@ if (!fs.existsSync(DATAFILE)) {
 
 class Job {
 
+	/* Ideas for TODO
+	* displayJob() returns something already formatted for discord
+	* findScene(scene_id) returns a full array with found scene, should fail on duplicates, could be optimized down the line
+	* check data integrity of the DATAFILE
+	*
+	* more useful documentation and comments
+	* create unit tests
+	*/
+
 	constructor(scene_id = null) {
 		if (!fs.existsSync(DATAFILE)) {
 			fs.appendFileSync(
@@ -37,13 +46,15 @@ class Job {
 		else {
 			const jobs = parse(fs.readFileSync(DATAFILE));
 			// console.log(jobs);
+			this.setSceneId(scene_id);
 			for (const i in jobs) {
 				if (Object.prototype.hasOwnProperty.call(jobs, i)) {
-					if (scene_id === jobs[i][0]) {
+					if (this.getSceneId() === jobs[i][0]) {
 						this.setJob(jobs[i]);
 					}
 				}
 			}
+			console.log(this.getJob());
 		}
 
 	}
@@ -115,7 +126,7 @@ class Job {
 	}
 
 	getDeadline() {
-		return this.deadline.toISOString();
+		return this.required_roles == null ? null : this.deadline.toISOString();
 	}
 
 	// Return a deadline in discord timestamp

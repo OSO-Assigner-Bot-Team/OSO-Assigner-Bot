@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const Job = require('../../src/jobsManager');
 
 const DATAFILE = 'jobs.v0.csv';
 
@@ -20,22 +21,22 @@ module.exports = {
 		),
 
 	async execute(interaction) {
-		const scene_id = interaction.options.getString('scene_id');
+		const pipe_job = new Job(interaction.options.getString('scene_id'));
 
 		const scene = parse(fs.readFileSync(DATAFILE));
 
 		for (const i of scene) {
-			if (scene_id.toUpperCase() === i[0]) {
+			if (pipe_job.getSceneId() === i[0]) {
 				interaction.reply(`
-* Scene ID: ${i[0]}
-* Description: ${i[1]}
-* Attachments: ${i[2]}
-* Attributes: ${i[3]}
-* Required roles: ${i[4]}
-* Deadline: ${i[5]}
-* Status: ${i[6]}
-* Assignee: ${i[7]}
-* Work: ${i[8]}`);
+* Scene ID: ${pipe_job.getSceneId()}
+* Description: ${pipe_job.getDescription()}
+* Attachments: ${pipe_job.getAttachments()}
+* Attributes: ${pipe_job.getAttributes()}
+* Required roles: ${pipe_job.getAttachments()}
+* Deadline: ${pipe_job.getDeadlineFormatted()}
+* Status: ${pipe_job.getStatus()}
+* Assignee: ${pipe_job.getAssignee()}
+* Work: ${pipe_job.getWork()}`);
 			}
 		}
 	},
