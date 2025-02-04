@@ -36,6 +36,7 @@ class Job {
 		}
 		else {
 			const jobs = parse(fs.readFileSync(DATAFILE));
+			// console.log(jobs);
 			for (const i in jobs) {
 				if (Object.prototype.hasOwnProperty.call(jobs, i)) {
 					if (scene_id === jobs[i][0]) {
@@ -91,7 +92,7 @@ class Job {
 	}
 
 	getCSVString() {
-		return stringify([this.getJob()]).trimEnd();
+		return stringify([this.getJob()]);
 	}
 
 	getSceneId() {
@@ -114,12 +115,12 @@ class Job {
 	}
 
 	getDeadline() {
-		return this.deadline;
+		return this.deadline.toISOString();
 	}
 
 	// Return a deadline in discord timestamp
 	getDeadlineFormatted() {
-		return discord.time(this.deadline);
+		return this.deadline == null ? '**ERROR**' : discord.time(this.deadline);
 	}
 
 	getStatus() {
@@ -163,6 +164,16 @@ class Job {
 
 	setDeadline(deadline) {
 		this.deadline = chrono.parseDate(deadline);
+
+		if (Object.prototype.toString.call(this.deadline) === '[object Date]') {
+			// it is a date
+			if (isNaN(this.deadline)) {
+				throw new TypeError(`"${deadline}" is not a valid date`);
+			}
+		}
+		else {
+			throw new TypeError(`"${deadline}" is not a valid date`);
+		}
 	}
 
 	// For correct values use Job.getAvailableStatuses()
@@ -196,3 +207,6 @@ module.exports = Job;
 
 // const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
 
+// console.log(chrono.parseDate('tomorrow').toDateString());
+// console.log(chrono.parseDate('tomorrow').toISOString());
+// console.log(chrono.parseDate('tomorrow').toUTCString());

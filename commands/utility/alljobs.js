@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const Job = require('../../src/jobsManager');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,7 +19,7 @@ module.exports = {
 
 	async execute(interaction) {
 		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
-
+		let scene = new Job();
 		let table = '';
 
 		for (const i of jobs) {
@@ -31,10 +32,10 @@ module.exports = {
 				continue;
 			}
 
+			scene.setJob(i);
 			// Create row
 			table = table.concat(
-				`${i[0]}, "${i[1]}", ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}, ${i[7]}, ${i[8]}\n`
-			);
+				scene.getCSVString());
 		}
 
 		interaction.reply(table);
