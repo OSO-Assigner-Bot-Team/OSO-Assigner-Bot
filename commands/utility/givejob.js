@@ -47,7 +47,7 @@ You have been assigned the following job:
 
 **Attributes:** ${pipe_job.getAttributes()}
 
-Your deadline is **${pipe_job.getDeadline()}**.
+Your deadline is **${pipe_job.getDeadlineFormatted()}**.
 
 If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
 
