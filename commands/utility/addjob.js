@@ -70,7 +70,7 @@ module.exports = {
 		}
 
 		interaction.reply(`
-## The following job has been created. First person with the required roles to use /getjob gets it!\n
+## The following job has been created. First person with the required roles to use /givejob gets it!\n
 * Scene ID: ${pipe_job.getSceneId()}
 * Description: ${pipe_job.getDescription()}
 * Attachments: ${pipe_job.getAttachments()}
