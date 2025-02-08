@@ -4,7 +4,7 @@ const path = require('node:path');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { OAB_CLIENT, OAB_GUILD, OAB_TOKEN } = process.env;
+const { clientId, guildId, token } = process.env;
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
@@ -31,7 +31,7 @@ for (const folder of commandFolders) {
 }
 
 // Construct and prepare an instance of the REST module
-const rest = new REST().setToken(OAB_TOKEN);
+const rest = new REST().setToken(token);
 
 // and deploy your commands!
 (async () => {
@@ -39,7 +39,7 @@ const rest = new REST().setToken(OAB_TOKEN);
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(Routes.applicationGuildCommands(OAB_CLIENT, OAB_GUILD), { body: commands });
+		const data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
 	}
