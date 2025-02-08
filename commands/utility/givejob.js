@@ -28,31 +28,30 @@ module.exports = {
 			PermissionFlagsBits.ViewChannel),
 
 	async execute(interaction) {
-		// const pipe_job = new Job(interaction.options.getString('scene_id'));
-		const scene_id = interaction.options.getString('scene_id');
+		const pipe_job = new Job(interaction.options.getString('scene_id'));
 		const jobs = parse(fs.readFileSync(DATAFILE));
 		const member = interaction.options.getMember('target');
 
 		console.log(member.roles.cache);
 
 		for (const i of jobs) {
-			if (scene_id.toUpperCase() === i[0]) {
+			if (pipe_job.getSceneId() === i[0]) {
 				member.send(`
 You have been assigned the following job:
 
-**Scene ID:** ${i[0]}
+**Scene ID:** ${pipe_job.getSceneId()}
 
-**Description:** ${i[1]}
+**Description:** ${pipe_job.getDescription()}
 
-**Attachments:** ${i[2]}
+**Attachments:** ${pipe_job.getAttachments()}
 
-**Attributes:** ${i[3]}
+**Attributes:** ${pipe_job.getAttributes()}
 
-Your deadline is **${i[5]}**.
+Your deadline is **${pipe_job.getDeadline()}**.
 
 If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
 
-				interaction.reply(`The job for scene ${i[0]} has been assigned to ${member}.`);
+				interaction.reply(`The job for scene ${pipe_job.getSceneId()} has been assigned to ${member}.`);
 			}
 		}
 	},
