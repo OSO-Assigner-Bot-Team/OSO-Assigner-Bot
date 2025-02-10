@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const Job = require('../../src/jobsManager.js');
 const { parse } = require('csv/sync');
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 const DATAFILE = 'jobs.v0.csv';
 
@@ -32,11 +32,18 @@ module.exports = {
 		const jobs = parse(fs.readFileSync(DATAFILE));
 		const member = interaction.options.getMember('target');
 
-		console.log(member.roles.cache);
+		const stop = new ButtonBuilder()
+			.setCustomId('stop')
+			.setLabel('STOP')
+			.setStyle(ButtonStyle.Danger);
+
+		const row = new ActionRowBuilder()
+			.addComponents(stop);
 
 		for (const i of jobs) {
 			if (pipe_job.getSceneId() === i[0]) {
-				member.send(`
+				const message = await member.send({
+					content: `
 You have been assigned the following job:
 
 **Scene ID:** ${pipe_job.getSceneId()}
@@ -49,9 +56,23 @@ You have been assigned the following job:
 
 Your deadline is **${pipe_job.getDeadline()}**.
 
-If you find yourself unable to meet the deadline, send the following message: "I am unable to meet the deadline".`);
+If you find yourself unable to meet the deadline, or want to rescind working on this job for any other reason, click the red "STOP" button below.`,
+
+					components: [row],
+					withResponse: true,
+				});
 
 				interaction.reply(`The job for scene ${pipe_job.getSceneId()} has been assigned to ${member}.`);
+
+				const rescission = await message.awaitMessageComponent();
+
+				if (rescission.customId === 'stop') {
+					await message.edit({
+						content: `**You are no longer working on the job for scene ${pipe_job.getSceneId()}.**`,
+						components: [],
+						withResponse: false,
+					});
+				}
 			}
 		}
 	},
