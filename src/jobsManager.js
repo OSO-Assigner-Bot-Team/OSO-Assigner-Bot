@@ -6,6 +6,7 @@ const discord = require('discord.js');
 
 const DATAFILE = 'jobs.v0.csv';
 
+// This is redundant
 if (!fs.existsSync(DATAFILE)) {
 	fs.appendFileSync(
 		DATAFILE,
@@ -17,12 +18,13 @@ if (!fs.existsSync(DATAFILE)) {
 class Job {
 
 	/* Ideas for TODO
-	* displayJob() returns something already formatted for discord
 	* findScene(scene_id) returns a full array with found scene, should fail on duplicates, could be optimized down the line
 	* check data integrity of the DATAFILE
 	*
 	* more useful documentation and comments
 	* create unit tests
+	*
+	* use objects instead of arrays
 	*/
 
 	constructor(scene_id = null) {
@@ -32,6 +34,21 @@ class Job {
 				'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
 			);
 		}
+
+		// function hasDuplicates(array) {
+		// 	var valuesSoFar = Object.create(null);
+		// 	for (var i = 0; i < array.length; ++i) {
+		// 		var value = array[i];
+		// 		if (value in valuesSoFar) {
+		// 			return true;
+		// 		}
+		// 		valuesSoFar[value] = true;
+		// 	}
+		// 	return false;
+		// }
+		
+
+
 		if (scene_id === null || scene_id === undefined) {
 			this.scene_id = null;
 			this.description = null;
@@ -44,21 +61,21 @@ class Job {
 			this.work = null;
 		}
 		else {
-			const jobs = parse(fs.readFileSync(DATAFILE));
-			// console.log(jobs);
-			this.setSceneId(scene_id);
-			for (const i in jobs) {
-				if (Object.prototype.hasOwnProperty.call(jobs, i)) {
-					if (this.getSceneId() === jobs[i][0]) {
-						this.setJob(jobs[i]);
-					}
-				}
-			}
-			console.log(this.getJob());
+			this.findScene(scene_id);
+			// const jobs = parse(fs.readFileSync(DATAFILE));
+			// // console.log(jobs);
+			// this.setSceneId(scene_id);
+			// for (const i in jobs) {
+			// 	if (Object.prototype.hasOwnProperty.call(jobs, i)) {
+			// 		if (this.getSceneId() === jobs[i][0]) {
+			// 			this.setJob(jobs[i]);
+			// 		}
+			// 	}
+			// }
+			// console.log(this.getJob());
 		}
 
 	}
-
 
 	addJob(scene_id, description = null, attachments = null, attributes = null, required_roles = null, deadline = null, status = null) {
 		this.setSceneId(scene_id);
@@ -76,6 +93,26 @@ class Job {
 		{ name: 'Unassigned', value: 'UNASSIGNED' },
 	];
 
+	findScene(scene_id) {
+		const jobs = parse(fs.readFileSync(DATAFILE), { columns: true, objname: 'SceneId' });
+		// console.log(jobs);
+		if (Object.prototype.hasOwnProperty.call(jobs, scene_id)) {
+			console.log(jobs[scene_id]);
+			this.setJob(jobs[scene_id]);
+		}
+		else {
+			throw new TypeError(`There is no scene named "${scene_id}" in "${DATAFILE}"`);
+		}
+		// this.setSceneId(scene_id);
+		// for (const i in jobs) {
+		// 	if (Object.prototype.hasOwnProperty.call(jobs, i)) {
+		// 		if (this.getSceneId() === jobs[i][0]) {
+		// 			this.setJob(jobs[i]);
+		// 		}
+		// 	}
+		// }
+	}
+
 	getJob() {
 		return [
 			this.getSceneId(),
@@ -90,21 +127,45 @@ class Job {
 		];
 	}
 
-	setJob(scene = Array(9)) {
-		this.setSceneId(scene[0]);
-		this.setDescription(scene[1]);
-		this.setAttachments(scene[2]);
-		this.setAttributes(scene[3]);
-		this.setRequiredRoles(scene[4]);
-		this.setDeadline(scene[5]);
-		this.setStatus(scene[6]);
-		this.setAssignee(scene[7]);
-		this.setWork(scene[8]);
+	setJob(scene) {
+		if (Object.prototype.toString.call(scene) === '[object Array]') {
+			this.setSceneId(scene[0]);
+			this.setDescription(scene[1]);
+			this.setAttachments(scene[2]);
+			this.setAttributes(scene[3]);
+			this.setRequiredRoles(scene[4]);
+			this.setDeadline(scene[5]);
+			this.setStatus(scene[6]);
+			this.setAssignee(scene[7]);
+			this.setWork(scene[8]);
+		}
+		else {
+			// SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work
+			// This will work out if object has those properties and assign them.
+			this.setSceneId(scene['SceneId']);
+			this.setDescription(scene['Description']);
+			this.setAttachments(scene['Attachments']);
+			this.setAttributes(scene['Attributes']);
+			this.setRequiredRoles(scene['RequiredRoles']);
+			this.setDeadline(scene['Deadline']);
+			this.setStatus(scene['Status']);
+			this.setAssignee(scene['Assignee']);
+			this.setWork(scene['Work']);
+		}
 	}
 
 	getCSVString() {
 		return stringify([this.getJob()]);
 	}
+
+	// Returns an array of Objects with name: and value: pair
+	static getAvailableStatuses() {
+		return this.available_statuses;
+	}
+
+	// =========================================================
+	// =========================GETTERS=========================
+	// =========================================================
 
 	getSceneId() {
 		return this.scene_id == null ? 'N/A' : this.scene_id.toString();
@@ -146,12 +207,9 @@ class Job {
 		return this.work == null ? 'N/A' : this.work.toString();
 	}
 
-
-	// Returns an array of Objects with name: and value: pair
-	static getAvailableStatuses() {
-		return this.available_statuses;
-	}
-
+	// =========================================================
+	// =========================SETTERS=========================
+	// =========================================================
 
 	setSceneId(scene_id) {
 		this.scene_id = scene_id.toString().toUpperCase();
@@ -210,10 +268,15 @@ class Job {
 
 module.exports = Job;
 
+
 // console.log(Job.getAvailableStatuses());
 
-// const anime = new Job("bruh", 1, 1, 1, 1, 1, 'COMPLETED');
-// console.log(anime.getJobArray());
+const anime = new Job('B');
+// anime.findScene('A');
+anime.setJob({Description: 'foo',SceneId: 'B'});
+console.log(anime.getJob());
+
+
 // console.log(anime.getCSVString());
 
 // const audio = new Job(1, 1, 1, 1, 1, 1, 'bad stuff');
