@@ -41,7 +41,7 @@ module.exports = {
 
 	async execute(interaction) {
 		// Pipe all inputs through Job class so the setters can validate the input
-		const pipe_job = new Job(interaction.options.getString('scene_id'));
+		const pipe_job = new Job();
 
 		// Hacky way to check if there is job with the same ID
 		// if (pipe_job.getDescription != 'N/A') {

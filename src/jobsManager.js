@@ -46,8 +46,6 @@ class Job {
 		// 	}
 		// 	return false;
 		// }
-		
-
 
 		if (scene_id === null || scene_id === undefined) {
 			this.scene_id = null;
@@ -97,7 +95,7 @@ class Job {
 		const jobs = parse(fs.readFileSync(DATAFILE), { columns: true, objname: 'SceneId' });
 		// console.log(jobs);
 		if (Object.prototype.hasOwnProperty.call(jobs, scene_id)) {
-			console.log(jobs[scene_id]);
+			// console.log(jobs[scene_id]);
 			this.setJob(jobs[scene_id]);
 		}
 		else {
@@ -142,15 +140,15 @@ class Job {
 		else {
 			// SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work
 			// This will work out if object has those properties and assign them.
-			this.setSceneId(scene['SceneId']);
-			this.setDescription(scene['Description']);
-			this.setAttachments(scene['Attachments']);
-			this.setAttributes(scene['Attributes']);
-			this.setRequiredRoles(scene['RequiredRoles']);
-			this.setDeadline(scene['Deadline']);
-			this.setStatus(scene['Status']);
-			this.setAssignee(scene['Assignee']);
-			this.setWork(scene['Work']);
+			if (scene['SceneId'] != undefined) { this.setSceneId(scene['SceneId']);};
+			if (scene['Description'] != undefined) { this.setDescription(scene['Description']);};
+			if (scene['Attachments'] != undefined) { this.setAttachments(scene['Attachments']);};
+			if (scene['Attributes'] != undefined) { this.setAttributes(scene['Attributes']);};
+			if (scene['RequiredRoles'] != undefined) { this.setRequiredRoles(scene['RequiredRoles']);};
+			if (scene['Deadline'] != undefined) { this.setDeadline(scene['Deadline']);};
+			if (scene['Status'] != undefined) { this.setStatus(scene['Status']);};
+			if (scene['Assignee'] != undefined) { this.setAssignee(scene['Assignee']);};
+			if (scene['Work'] != undefined) { this.setWork(scene['Work']);};
 		}
 	}
 
@@ -271,10 +269,10 @@ module.exports = Job;
 
 // console.log(Job.getAvailableStatuses());
 
-const anime = new Job('B');
+// const anime = new Job('B');
 // anime.findScene('A');
-anime.setJob({Description: 'foo',SceneId: 'B'});
-console.log(anime.getJob());
+// anime.setJob({Description: 'foo',SceneId: 'B'});
+// console.log(anime.getJob());
 
 
 // console.log(anime.getCSVString());
