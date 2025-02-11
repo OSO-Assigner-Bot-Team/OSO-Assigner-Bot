@@ -48,10 +48,9 @@ COPY --chown=node:node .env .env
 COPY --chown=node:node --from=builder /usr/src/app/dist dist
 
 RUN yarn workspaces focus --all --production
-RUN yarn generate
+RUN chmod +x /entrypoint.sh
+RUN chown node:node /usr/src/application
 
 RUN chown node:node /usr/src/app
 USER node
-
-STOPSIGNAL SIGINT
-CMD ["yarn", "run", "start"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,3 +1,11 @@
+# SENSITIVE INFO
+config.prod.json
+config.dev.json
+
+# Database
+jobs.*.csv
+jobs.csv
+
 # Logs
 logs
 *.log
@@ -102,43 +110,9 @@ dist
 # TernJS port file
 .tern-port
 
-# Typescript Things
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
-*.swp
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
 
-pids
-logs
-results
-tmp
-
-# Build
-public/css/main.css
-
-# Coverage reports
-coverage
-
-# Dependency directory
-node_modules
-bower_components
-
-# Editors
-.idea
-*.iml
-
-# OS metadata
-.DS_Store
-Thumbs.db
-
-# Ignore built ts files
-dist/**/*
-
-# Yarn stuff
+# yarn v2
 .yarn/cache
 .env
