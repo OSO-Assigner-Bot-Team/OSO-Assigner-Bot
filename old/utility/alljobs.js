@@ -1,6 +1,9 @@
 const fs = require('node:fs');
 const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const Job = require('../../src/jobsManager');
+
+const DATAFILE = 'jobs.v0.csv';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,12 +16,12 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {
-		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
-
+		const jobs = parse(fs.readFileSync(DATAFILE));
+		const scene = new Job();
 		let table = '';
 
 		for (const i of jobs) {
@@ -26,15 +29,15 @@ module.exports = {
 			if (i[0] == 'SceneId') {
 				// Create formatted header
 				table = table.concat(
-					'__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n'
+					'__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n',
 				);
 				continue;
 			}
 
+			scene.setJob(i);
 			// Create row
 			table = table.concat(
-				`${i[0]}, "${i[1]}", ${i[2]}, ${i[3]}, ${i[4]}, ${i[5]}, ${i[6]}, ${i[7]}, ${i[8]}\n`
-			);
+				scene.getCSVString());
 		}
 
 		interaction.reply(table);

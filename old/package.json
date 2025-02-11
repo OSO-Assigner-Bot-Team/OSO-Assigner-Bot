@@ -1,0 +1,36 @@
+{
+  "name": "oso-assigner-bot",
+  "version": "0.4.1",
+  "description": "Self-assigning bot for the production for Open Source Objects.",
+  "keywords": [
+    "oso",
+    "discord",
+    "bot",
+    "open-source-objects"
+  ],
+  "homepage": "https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot#readme",
+  "bugs": {
+    "url": "https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot.git"
+  },
+  "license": "MIT",
+  "author": "OSO Assigner Bot Team",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chrono-node": "^2.7.8",
+    "csv": "^6.3.11",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0"
+  }
+}

@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const Job = require('../../src/jobsManager.js');
+const Job = require('../src/jobsManager.js');
+
+const DATAFILE = 'jobs.v0.csv';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -39,7 +41,17 @@ module.exports = {
 
 	async execute(interaction) {
 		// Pipe all inputs through Job class so the setters can validate the input
-		const pipe_job = new Job(
+		const pipe_job = new Job(interaction.options.getString('scene_id'));
+
+		// Hacky way to check if there is job with the same ID
+		// if (pipe_job.getDescription != 'N/A') {
+		// 	console.log(pipe_job.getJob());
+		// 	console.log(pipe_job.scene_id);
+
+		// 	throw new TypeError(`Can't add a job: "${interaction.options.getString('scene_id')}" already exists`)
+		// }
+
+		pipe_job.addJob(
 			interaction.options.getString('scene_id'),
 			interaction.options.getString('description'),
 			interaction.options.getString('attachments'),
@@ -49,24 +61,20 @@ module.exports = {
 			interaction.options.getString('status')
 		);
 
-		if (fs.existsSync('jobs.v0.csv')) {
-			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
+		if (fs.existsSync(DATAFILE)) {
+			fs.appendFileSync(DATAFILE, pipe_job.getCSVString());
 		} else {
-			fs.appendFileSync(
-				'jobs.v0.csv',
-				'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n'
-			);
-			fs.appendFileSync('jobs.v0.csv', pipe_job.getCSVString().concat(',N/A,N/A\n'));
+			throw new TypeError(`${DATAFILE} doesn't exist`);
 		}
 
 		interaction.reply(`
-## The following job has been created. First person with the required roles to use /getjob gets it!\n
+## The following job has been created. First person with the required roles to use /givejob gets it!\n
 * Scene ID: ${pipe_job.getSceneId()}
 * Description: ${pipe_job.getDescription()}
 * Attachments: ${pipe_job.getAttachments()}
 * Attributes: ${pipe_job.getAttributes()}
 * Required roles: ${pipe_job.getAttachments()}
-* Deadline: ${pipe_job.getDeadline()}
+* Deadline: ${pipe_job.getDeadlineFormatted()}
 * Status: ${pipe_job.getStatus()}`);
 	},
 };

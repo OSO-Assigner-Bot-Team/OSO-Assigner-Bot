@@ -4,6 +4,7 @@ This is the self-assigning bot for the production for Open Source Objects, built
 ## Features
 This will be updated as more features are added.
 * Create, view, edit, and delete jobs
+* Give and remove roles
 
 ## Install
 First, run `git clone https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot.git` in a command prompt/terminal.
@@ -14,18 +15,16 @@ To install the packages this bot uses, simply run `npm install` in a command pro
 
 ## Configure
 
-For the bot to function correctly you need to provide `config.dev.json` file in the root directory of the project. 
+For the bot to function correctly you need to provide `.env` file in the root directory of the project. 
 
-```json
-{
-	"token": "replace-with-token",
-	"clientId": "replace-with-application-id",
-	"guildId": "replace-with-server-id"
-}
+```env
+token=replace-with-token
+clientId=replace-with-application-id
+guildId=replace-with-server-id
 ```
 
 ## Run
-To run the bot locally on your computer, simply run `node . ./config.dev.json` in a command prompt/terminal in the root directory of this repo. The first argument need to point towards `config.dev.json` to access the secret token. To stop running, press `Ctrl` + `C`.
+To run the bot locally on your computer, simply run `node .` in a command prompt/terminal in the root directory of this repo. To stop running, press `Ctrl` + `C`.
 
 ## Contribute
 1. Fork the repo with the button in the top right.

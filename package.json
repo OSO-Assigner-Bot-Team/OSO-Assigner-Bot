@@ -1,35 +1,40 @@
 {
-  "name": "oso-assigner-bot",
-  "version": "0.4.0",
-  "description": "Self-assigning bot for the production for Open Source Objects.",
-  "keywords": [
-    "oso",
-    "discord",
-    "bot",
-    "open-source-objects"
-  ],
-  "homepage": "https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot#readme",
-  "bugs": {
-    "url": "https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot.git"
-  },
-  "license": "MIT",
-  "author": "OSO Assigner Bot Team",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "csv": "^6.3.11",
-    "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.19.0",
-    "eslint": "^9.19.0"
-  }
+	"name": "@open-source-objects/assigner",
+	"packageManager": "yarn@4.6.0",
+	"private": true,
+	"main": "dist/Entrypoint.js",
+	"type": "module",
+	"imports": {
+		"#root/*": "./dist/*.js"
+	},
+	"author": {
+		"name": "ninjaninja140",
+		"url": "https://github.com/ninjaninja140"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.3.1",
+		"@sapphire/decorators": "^6.1.1",
+		"@sapphire/framework": "^5.3.2",
+		"@sapphire/plugin-logger": "^4.0.2",
+		"discord.js": "14.17.3",
+		"dotenv": "^16.4.7",
+		"ora": "^8.2.0"
+	},
+	"devDependencies": {
+		"@bracketed/typescript-config": "^4.4.0",
+		"@sapphire/cli": "^1.9.3",
+		"prisma": "^6.3.1",
+		"typescript": "^5.7.3"
+	},
+	"scripts": {
+		"start": "node dist/Entrypoint.js",
+		"generate": "yarn dlx prisma generate",
+		"dev": "yarn dlx prisma generate && yarn dlx tsc && yarn node dist/Entrypoint.js",
+		"start:docker": "docker run --detach --name DiscordBot --network bridge --restart unless-stopped bot:latest",
+		"dev:docker": "docker build --tag bot:latest . && docker run --detach --name DiscordBot --network bridge --restart unless-stopped bot:latest",
+		"stop:docker": "docker stop DiscordBot && docker rm DiscordBot && docker rmi bot:latest",
+		"build:docker": "docker build --tag bot:latest .",
+		"remove:discord": "node RemoveCommands.js",
+		"build": "yarn install && yarn tsc"
+	}
 }

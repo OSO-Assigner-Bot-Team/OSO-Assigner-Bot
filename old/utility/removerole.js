@@ -5,10 +5,10 @@ module.exports = {
 		.setName('removerole')
 		.setDescription('Removes the chosen role from the chosen user.')
 		.addRoleOption((option) =>
-			option.setName('role').setDescription('Role to remove from user').setRequired(true)
+			option.setName('role').setDescription('Role to remove from user').setRequired(true),
 		)
 		.addUserOption((option) =>
-			option.setName('target').setDescription('User to remove role from').setRequired(true)
+			option.setName('target').setDescription('User to remove role from').setRequired(true),
 		)
 		.setDefaultMemberPermissions(
 			PermissionFlagsBits.SendMessages |
@@ -17,7 +17,7 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {
@@ -27,7 +27,8 @@ module.exports = {
 		if (member.roles.cache.some((role_to_check) => role_to_check.name === role.name)) {
 			member.roles.remove(role);
 			interaction.reply(`${member} no longer has the role ${role}.`);
-		} else {
+		}
+		else {
 			interaction.reply(`${member} already doesn't have the role ${role}.`);
 		}
 	},

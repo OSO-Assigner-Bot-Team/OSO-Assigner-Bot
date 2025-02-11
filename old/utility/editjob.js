@@ -3,12 +3,14 @@ const { parse } = require('csv/sync');
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const Job = require('../../src/jobsManager.js');
 
+const DATAFILE = 'jobs.v0.csv';
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('editjob')
 		.setDescription('Edits the specified job.')
 		.addStringOption((option) =>
-			option.setName('scene_id').setDescription('Scene ID whose job to edit').setRequired(true)
+			option.setName('scene_id').setDescription('Scene ID whose job to edit').setRequired(true),
 		)
 		.addStringOption((option) => option.setName('description').setDescription('Description'))
 		.addStringOption((option) => option.setName('attachments').setDescription('Attached files'))
@@ -16,7 +18,7 @@ module.exports = {
 		.addStringOption((option) => option.setName('required_roles').setDescription('Required roles'))
 		.addStringOption((option) => option.setName('deadline').setDescription('Deadline'))
 		.addStringOption((option) =>
-			option.setName('status').setDescription('Status').addChoices(Job.getAvailableStatuses())
+			option.setName('status').setDescription('Status').addChoices(Job.getAvailableStatuses()),
 		)
 		.setDefaultMemberPermissions(
 			PermissionFlagsBits.SendMessages |
@@ -25,7 +27,7 @@ module.exports = {
 				PermissionFlagsBits.AddReactions |
 				PermissionFlagsBits.UseApplicationCommands |
 				PermissionFlagsBits.SendPolls |
-				PermissionFlagsBits.ViewChannel
+				PermissionFlagsBits.ViewChannel,
 		),
 
 	async execute(interaction) {
@@ -37,7 +39,7 @@ module.exports = {
 		const deadline = interaction.options.getString('deadline');
 		const status = interaction.options.getString('status');
 
-		const jobs = parse(fs.readFileSync('jobs.v0.csv'));
+		const jobs = parse(fs.readFileSync(DATAFILE));
 
 		function getCurrentScene(id) {
 			for (const i in jobs) {
@@ -58,9 +60,11 @@ module.exports = {
 		for (let i = 0; i < current_scene.length; i++) {
 			if (new_scene[i] === null || new_scene[i] === undefined) {
 				scene.push(current_scene[i]);
-			} else if (i === 0) {
+			}
+			else if (i === 0) {
 				scene.push(scene_id);
-			} else if (new_scene[i] !== current_scene[i]) {
+			}
+			else if (new_scene[i] !== current_scene[i]) {
 				scene.push(new_scene[i]);
 			}
 		}
@@ -68,14 +72,14 @@ module.exports = {
 		for (const i in jobs) {
 			if (Object.prototype.hasOwnProperty.call(jobs, i)) {
 				if (scene_id === jobs[i][0]) {
-					let current_jobs = fs.readFileSync('jobs.v0.csv').toString().split('\n');
+					let current_jobs = fs.readFileSync(DATAFILE).toString().split('\n');
 					current_jobs.splice(i, 1);
 					current_jobs = current_jobs.concat(
-						`${scene[0]},"${scene[1]}",${scene[2]},${scene[3]},${scene[4]},${scene[5]},${scene[6]},${scene[7]},${scene[8]}`
+						`${scene[0]},"${scene[1]}",${scene[2]},${scene[3]},${scene[4]},${scene[5]},${scene[6]},${scene[7]},${scene[8]}`,
 					);
 					const new_jobs = current_jobs.join('\n');
 
-					fs.writeFileSync('jobs.v0.csv', new_jobs);
+					fs.writeFileSync(DATAFILE, new_jobs);
 				}
 			}
 		}

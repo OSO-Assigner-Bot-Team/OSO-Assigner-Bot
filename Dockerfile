@@ -1,30 +1,57 @@
-FROM node:23-bullseye-slim AS base
-WORKDIR /usr/src/application
+FROM node:22-bullseye-slim AS base
+WORKDIR /usr/src/app
 
-# Clone source files
-COPY --chown=node:node commands/ commands/
+COPY --chown=node:node .yarn/ .yarn/
 COPY --chown=node:node src/ src/
-COPY --chown=node:node deploy-commands.js .
-COPY --chown=node:node index.js .
+COPY --chown=node:node database/ database/
+COPY --chown=node:node prisma/ prisma/
+
+
+COPY --chown=node:node yarn.lock .
 COPY --chown=node:node package.json .
-COPY --chown=node:node entrypoint.sh /entrypoint.sh
-#COPY --chown=node:node .env .
+COPY --chown=node:node .yarnrc.yml .
+COPY --chown=node:node .gitmodules .
 
-ENV OAB_TOKEN=null
-ENV OAB_GUILD=null
-ENV OAB_CLIENT=null
+RUN apt update -y && apt upgrade -y
+RUN apt-get install -y build-essential \
+    python3 python3-pip make g++ gcc \
+    curl wget git unzip zip ca-certificates \
+    openssl
 
-# Setting up Yarn
-RUN yarn set version stable
+# If Redis is in use
+#RUN apt install -y redis
+
+# If web scraping is in use
+#RUN apt install -y chromium chromium-driver 
+
+# If video or audio processing is involved
+#RUN apt install -y ffmpeg
+
+# If image processing is involved
+#RUN apt-get install -y libvips libvips-dev
+
 
 FROM base AS builder
-RUN yarn install
-RUN yarn node ./deploy-commands.js
+COPY --chown=node:node tsconfig.json tsconfig.json
+COPY --chown=node:node env.d.ts env.d.ts
+
+RUN git config --global --add safe.directory /usr/src/app
+RUN git init
+RUN git submodule init
+RUN git submodule update
+
+RUN yarn install --immutable
+RUN yarn tsc --noEmitOnError
 
 FROM base AS runner
-RUN yarn workspaces focus --all --production
-RUN chmod +x /entrypoint.sh
-RUN chown node:node /usr/src/application
+COPY --chown=node:node .env .env
+COPY --chown=node:node --from=builder /usr/src/app/dist dist
 
+RUN yarn workspaces focus --all --production
+RUN yarn generate
+
+RUN chown node:node /usr/src/app
 USER node
-ENTRYPOINT ["/entrypoint.sh"]
+
+STOPSIGNAL SIGINT
+CMD ["yarn", "run", "start"]
