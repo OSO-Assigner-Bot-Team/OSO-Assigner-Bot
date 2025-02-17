@@ -119,3 +119,4 @@ dist
 # yarn v2
 .yarn/cache
 .env
+.yarn/install-state.gz
