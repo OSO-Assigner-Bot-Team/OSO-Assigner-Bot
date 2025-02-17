@@ -41,7 +41,6 @@ RUN git submodule init
 RUN git submodule update
 
 RUN yarn install --immutable
-RUN yarn dlx prisma generate
 RUN yarn tsc --noEmitOnError
 
 FROM base AS runner
@@ -53,6 +52,7 @@ RUN yarn workspaces focus --all --production
 RUN chmod +x /usr/src/app/Entrypoint.sh
 #RUN chown node:node /usr/src/application
 
+RUN yarn dlx prisma generate
 RUN chown node:node /usr/src/app
 USER node
 ENTRYPOINT ["/usr/src/app/Entrypoint.sh"]
