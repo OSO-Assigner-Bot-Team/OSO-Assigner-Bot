@@ -25,12 +25,6 @@ container.client = new SapphireClient({
 	partials: [Partials.GuildMember, Partials.User, Partials.Channel],
 });
 
-
-// console.log(container)
-// console.log(process.uptime())
-// console.log(container.process.on)
-
-
 process.on('SIGTERM', () => {
 	container.logger.info('SIGTERM signal received.');
 	container.database.$disconnect();
@@ -41,6 +35,7 @@ process.on('SIGINT', () => {
 	container.database.$disconnect();
 });
 
-await container.client.login(process.env.GATEWAY_TOKEN).then(() => {
+// Make sure that .env file has 'token' entry 
+await container.client.login(process.env.token).then(() => {
 	container.logger.info('Gateway: Login Connected, beginning bot startup process.');
 });
