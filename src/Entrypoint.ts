@@ -5,6 +5,7 @@ import { SapphireClient } from '@sapphire/framework';
 import { container } from '@sapphire/pieces';
 import { GatewayIntentBits, Partials } from 'discord.js';
 import dotenv from 'dotenv';
+import process from 'process';
 
 dotenv.config();
 
@@ -24,12 +25,18 @@ container.client = new SapphireClient({
 	partials: [Partials.GuildMember, Partials.User, Partials.Channel],
 });
 
-container.process.on('SIGTERM', () => {
+
+// console.log(container)
+// console.log(process.uptime())
+// console.log(container.process.on)
+
+
+process.on('SIGTERM', () => {
 	container.logger.info('SIGTERM signal received.');
 	container.database.$disconnect();
 });
 
-container.process.on('SIGINT', () => {
+process.on('SIGINT', () => {
 	container.logger.info('SIGINT signal received.');
 	container.database.$disconnect();
 });
