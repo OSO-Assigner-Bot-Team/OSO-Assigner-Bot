@@ -20,6 +20,8 @@ declare module '@sapphire/framework' {
 
 container.database = client;
 
+export default {}= container.database
+
 container.client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds],
 	partials: [Partials.GuildMember, Partials.User, Partials.Channel],
@@ -33,6 +35,7 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
 	container.logger.info('SIGINT signal received.');
 	container.database.$disconnect();
+	process.exit(0)
 });
 
 // Make sure that .env file has 'token' entry 

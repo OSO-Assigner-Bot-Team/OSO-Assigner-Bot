@@ -22,7 +22,7 @@ enum Status {
 
 model Job {
     id          String   @id @unique @default(uuid())
-    sceneId     Int
+    sceneId     String
     description String   @default("N/A")
     attachments Json
     attributes  Json

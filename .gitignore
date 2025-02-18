@@ -6,6 +6,10 @@ config.dev.json
 jobs.*.csv
 jobs.csv
 
+#prism database
+
+database
+
 # Logs
 logs
 *.log
@@ -120,3 +124,6 @@ dist
 .yarn/cache
 .env
 .yarn/install-state.gz
+
+
+
