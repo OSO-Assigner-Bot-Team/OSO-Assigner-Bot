@@ -2,12 +2,28 @@ import { PrismaClient } from '@prisma/client'
 import { JsonObject } from '@prisma/client/runtime/library';
 
 import { Chrono } from 'chrono-node';
+import { findJobBySceneID } from './databaseManager.js';
+
+
 
 const chrono = new Chrono;
 // const discord = require('discord.js');
 
-const prisma = new PrismaClient()
+// const prisma = new PrismaClient()
 
+
+
+export type jobType = {
+	sceneId: string | null;
+	description: string | null;
+	attachments: string | null;
+	attributes: string | null;
+	roles: string | null;
+	deadline: Date | null;
+	status: string | null;
+	assignee: string | null;
+	work: string | null;
+}
 
 class Job {
 
@@ -20,17 +36,17 @@ class Job {
 	* create unit tests
 	*/
 	
-	scene_id!: String | null;
-	description!: String | null;
-	attachments!: String | null;
-	attributes!: String | null;
-	roles!: String | null;
-	deadline!: Date | null;
-	status!: String | null;
-	assignee!: String | null;
-	work!: String | null;
+	_scene_id!: string | null;
+	_description!: string | null;
+	_attachments!: string | null;
+	_attributes!: string | null;
+	_roles!: string | null;
+	_deadline!: Date | null;
+	_status!: string | null;
+	_assignee!: string | null;
+	_work!: string | null;
 
-	constructor(scene_id: String | null = null) {
+	constructor(scene_id: string | null = null) {
 
 		
 
@@ -42,25 +58,25 @@ class Job {
 		// }
 		
 		if (scene_id === null) {
-			this.description = null;
-			this.attachments = null;
-			this.attributes = null;
-			this.roles = null;
-			this.deadline = null;
-			this.status = null;
-			this.assignee = null;
-			this.work = null;
+			this._description = null;
+			this._attachments = null;
+			this._attributes = null;
+			this._roles = null;
+			this._deadline = null;
+			this._status = null;
+			this._assignee = null;
+			this._work = null;
 		}
 		else {
-			// IDK what to do here
-			// const jobs = prisma.job.findFirst({
-			// 	where: {
-			// 		sceneId: scene_id,
-			// 	},
-		// });
-			// this.setJob(jobs[0]);
-			// console.log(jobs);
-			// console.log(this.getJob());
+
+			findJobBySceneID(scene_id).then(
+				async (foundJob) => {
+					// console.log(foundJob); //something is broken here
+				}
+			)
+
+
+
 		}
 
 	}
@@ -103,7 +119,7 @@ class Job {
 		];
 	}
 
-	setJob(scene:  Object) {
+	setJob(scene:  jobType) {
 		// if (Object.prototype.toString.call(scene) === '[object Array]') {
 		// 	this.setSceneId(scene[0]);
 		// 	this.setDescription(scene[1]);
@@ -118,39 +134,39 @@ class Job {
 		// else {
 			// SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work
 			// This will work out if object has those properties and assign them.
-			if (scene['SceneId'] != undefined) { this.setSceneId(scene['SceneId']);};
-			if (scene['Description'] != undefined) { this.setDescription(scene['Description']);};
-			if (scene['Attachments'] != undefined) { this.setAttachments(scene['Attachments']);};
-			if (scene['Attributes'] != undefined) { this.setAttributes(scene['Attributes']);};
-			if (scene['RequiredRoles'] != undefined) { this.setRequiredRoles(scene['RequiredRoles']);};
-			if (scene['Deadline'] != undefined) { this.setDeadline(scene['Deadline']);};
-			if (scene['Status'] != undefined) { this.setStatus(scene['Status']);};
-			if (scene['Assignee'] != undefined) { this.setAssignee(scene['Assignee']);};
-			if (scene['Work'] != undefined) { this.setWork(scene['Work']);};
+			if (scene['sceneId'] != undefined) { this.setSceneId(scene['sceneId']);};
+			if (scene['description'] != undefined) { this.setDescription(scene['description']);};
+			if (scene['attachments'] != undefined) { this.setAttachments(scene['attachments']);};
+			if (scene['attributes'] != undefined) { this.setAttributes(scene['attributes']);};
+			if (scene['roles'] != undefined) { this.setRoles(scene['roles']);};
+			if (scene['deadline'] != undefined) { this.setDeadline(scene['deadline']);};
+			if (scene['status'] != undefined) { this.setStatus(scene['status']);};
+			if (scene['assignee'] != undefined) { this.setAssignee(scene['assignee']);};
+			if (scene['work'] != undefined) { this.setWork(scene['work']);};
 		// }
 	}
 
 	getSceneId() {
-		return this.scene_id == null ? 'N/A' : this.scene_id.toString();
+		return this._scene_id == null ? 'N/A' : this._scene_id.toString();
 	}
 	getDescription() {
-		return this.description == null ? 'N/A' : this.description.toString();
+		return this._description == null ? 'N/A' : this._description.toString();
 	}
 
 	getAttachments() {
-		return this.attachments == null ? 'N/A' : this.attachments.toString();
+		return this._attachments == null ? 'N/A' : this._attachments.toString();
 	}
 
 	getAttributes() {
-		return this.attributes == null ? 'N/A' : this.attributes.toString();
+		return this._attributes == null ? 'N/A' : this._attributes.toString();
 	}
 
 	getRoles() {
-		return this.roles == null ? 'N/A' : this.roles.toString();
+		return this._roles == null ? 'N/A' : this._roles.toString();
 	}
 
 	getDeadline() {
-		return this.deadline == null ? null : this.deadline.toISOString();
+		return this._deadline == null ? null : this._deadline.toISOString();
 	}
 
 	// Return a deadline in discord timestamp
@@ -159,41 +175,46 @@ class Job {
 	// }
 
 	getStatus() {
-		return this.status == null ? 'N/A' : this.status.toString();
+		return this._status == null ? 'N/A' : this._status.toString();
 	}
 
 	getAssignee() {
-		return this.assignee == null ? 'N/A' : this.assignee.toString();
+		return this._assignee == null ? 'N/A' : this._assignee.toString();
 	}
 
 	getWork() {
-		return this.work == null ? 'N/A' : this.work.toString();
+		return this._work == null ? 'N/A' : this._work.toString();
 	}
 
 	setSceneId(scene_id: string) {
-		this.scene_id = scene_id.toString().toUpperCase();
+		this._scene_id = scene_id.toString().toUpperCase();
 	}
 
 	setDescription(description: string) {
-		this.description = description;
+		this._description = description;
 	}
 
 	setAttachments(attachments: any) {
-		this.attachments = attachments;
+		this._attachments = attachments;
 	}
 
 	setAttributes(attributes: any) {
-		this.attributes = attributes;
+		this._attributes = attributes;
 	}
 
 	setRoles(roles: any) {
-		this.roles = roles;
+		this._roles = roles;
 	}
 
-	setDeadline(deadline: string) {
-		this.deadline = chrono.parseDate(deadline);
+	setDeadline(deadline: string | Date) {
+		if (typeof deadline !== 'string'){
+			this._deadline = deadline;
+		}
+		else {
 
-		if (Object.prototype.toString.call(this.deadline) === '[object Date]') {
+		this._deadline = chrono.parseDate(deadline);
+
+		if (Object.prototype.toString.call(this._deadline) === '[object Date]') {
 			// it is a date
 			// if (isNaN(this.deadline)) {
 			// 	throw new TypeError(`"${deadline}" is not a valid date`);
@@ -202,26 +223,28 @@ class Job {
 		else {
 			throw new TypeError(`"${deadline}" is not a valid date`);
 		}
+
+		}
 	}
 
 	// For correct values use Job.getAvailableStatuses()
 	setStatus(status: string) {
 		for (const x of Job.available_statuses) {
 			if (x.value == status) {
-				this.status = status;
+				this._status = status;
 			}
 		}
-		if (this.status === undefined || this.status !== status) {
+		if (this._status === undefined || this._status !== status) {
 			throw new TypeError(`"${status}" is an invalid status`);
 		}
 	}
 
 	setAssignee(assignee: string) {
-		this.assignee = assignee;
+		this._assignee = assignee;
 	}
 
 	setWork(work: string) {
-		this.work = work;
+		this._work = work;
 	}
 }
 
@@ -230,7 +253,7 @@ export default {}= Job;
 
 // console.log(Job.getAvailableStatuses());
 
-const anime = new Job("bruh");
+const anime = new Job("A");
 // console.log(anime.getJobArray());
 // console.log(anime.getCSVString());
 

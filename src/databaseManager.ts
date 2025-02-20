@@ -1,11 +1,13 @@
 import { PrismaClient } from '@prisma/client'
+import { jobType } from './jobsManager.js';
 // import * as database from './Entrypoint.js'
 
 const prisma = new PrismaClient();
 
-async function findJobBySceneID(){
-	const allUsers = await prisma.job.findMany()
-	console.log(allUsers)
+export async function findJobBySceneID(scene_id: String){
+	const job = await prisma.job.findMany()
+	console.log(job)
+	let pipe: jobType;
 
 }
 
@@ -31,18 +33,20 @@ async function createJob() {
 }
 
 createJob()
-	.then(async () => {
-		findJobBySceneID()
-			.then(async () => {
-				await prisma.$disconnect()
-			})
-			.catch(async (e) => {
-				console.error(e)
-				await prisma.$disconnect()
-			process.exit(1)
-		})
-		await prisma.$disconnect()
-	})
+	.then(
+		// async () => {
+		// findJobBySceneID()
+		// 	.then(async () => {
+		// 		await prisma.$disconnect()
+		// 	})
+		// 	.catch(async (e) => {
+		// 		console.error(e)
+		// 		await prisma.$disconnect()
+		// 	process.exit(1)
+		// })
+		// await prisma.$disconnect()
+	// }
+)
 	.catch(async (e) => {
 		console.error(e)
 		await prisma.$disconnect()
