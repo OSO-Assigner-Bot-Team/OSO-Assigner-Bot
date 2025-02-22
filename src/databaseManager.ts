@@ -6,9 +6,8 @@ const prisma = new PrismaClient();
 
 export async function findJobBySceneID(scene_id: String){
 	const job = await prisma.job.findMany()
-	console.log(job)
-	let pipe: jobType;
-
+	// console.log(job)
+	return job
 }
 
 async function createJob() {

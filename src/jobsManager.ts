@@ -69,11 +69,9 @@ class Job {
 		}
 		else {
 
-			findJobBySceneID(scene_id).then(
-				async (foundJob) => {
-					// console.log(foundJob); //something is broken here
-				}
-			)
+			findJobBySceneID(scene_id).then((foundJob) => {
+					console.log(foundJob); 
+				});
 
 
 
