@@ -29,7 +29,7 @@ module.exports = {
 			if (i[0] == 'SceneId') {
 				// Create formatted header
 				table = table.concat(
-					'__Scene ID, Description, Attachments, Attributes, Required roles, Deadline, Status, Assignee, Work__\n',
+					'__Scene ID, Description, Attachments, Attributes, Deadline, Status, Assignee, Work__\n',
 				);
 				continue;
 			}

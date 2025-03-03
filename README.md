@@ -4,7 +4,6 @@ This is the self-assigning bot for the production for Open Source Objects, built
 ## Features
 This will be updated as more features are added.
 * Create, view, edit, and delete jobs
-* Give and remove roles
 
 ## Install
 First, run `git clone https://github.com/OSO-Assigner-Bot-Team/OSO-Assigner-Bot.git` in a command prompt/terminal.

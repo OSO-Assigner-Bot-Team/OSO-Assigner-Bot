@@ -32,7 +32,6 @@ module.exports = {
 * Description: ${pipe_job.getDescription()}
 * Attachments: ${pipe_job.getAttachments()}
 * Attributes: ${pipe_job.getAttributes()}
-* Required roles: ${pipe_job.getAttachments()}
 * Deadline: ${pipe_job.getDeadlineFormatted()}
 * Status: ${pipe_job.getStatus()}
 * Assignee: ${pipe_job.getAssignee()}

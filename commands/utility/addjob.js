@@ -18,9 +18,6 @@ module.exports = {
 		.addStringOption((option) =>
 			option.setName('attributes').setDescription('Attributes').setRequired(true),
 		)
-		.addStringOption((option) =>
-			option.setName('required_roles').setDescription('Required roles').setRequired(true),
-		)
 		.addStringOption((option) => option.setName('deadline').setDescription('Deadline').setRequired(true))
 		.addStringOption((option) =>
 			option
@@ -57,7 +54,6 @@ module.exports = {
 			interaction.options.getString('description'),
 			interaction.options.getString('attachments'),
 			interaction.options.getString('attributes'),
-			interaction.options.getString('required_roles'),
 			interaction.options.getString('deadline'),
 			interaction.options.getString('status'),
 		);
@@ -70,12 +66,11 @@ module.exports = {
 		}
 
 		interaction.reply(`
-## The following job has been created. First person with the required roles to use /givejob gets it!\n
+## The following job has been created. First person to use /givejob gets it!\n
 * Scene ID: ${pipe_job.getSceneId()}
 * Description: ${pipe_job.getDescription()}
 * Attachments: ${pipe_job.getAttachments()}
 * Attributes: ${pipe_job.getAttributes()}
-* Required roles: ${pipe_job.getAttachments()}
 * Deadline: ${pipe_job.getDeadlineFormatted()}
 * Status: ${pipe_job.getStatus()}`);
 	},

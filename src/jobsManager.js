@@ -10,7 +10,7 @@ const DATAFILE = 'jobs.v0.csv';
 if (!fs.existsSync(DATAFILE)) {
 	fs.appendFileSync(
 		DATAFILE,
-		'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
+		'SceneId,Description,Attachments,Attributes,Deadline,Status,Assignee,Work\n',
 	);
 }
 
@@ -31,7 +31,7 @@ class Job {
 		if (!fs.existsSync(DATAFILE)) {
 			fs.appendFileSync(
 				DATAFILE,
-				'SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work\n',
+				'SceneId,Description,Attachments,Attributes,Deadline,Status,Assignee,Work\n',
 			);
 		}
 
@@ -52,7 +52,6 @@ class Job {
 			this.description = null;
 			this.attachments = null;
 			this.attributes = null;
-			this.required_roles = null;
 			this.deadline = null;
 			this.status = null;
 			this.assignee = null;
@@ -64,12 +63,11 @@ class Job {
 
 	}
 
-	addJob(scene_id, description = null, attachments = null, attributes = null, required_roles = null, deadline = null, status = null) {
+	addJob(scene_id, description = null, attachments = null, attributes = null, deadline = null, status = null) {
 		this.setSceneId(scene_id);
 		this.setDescription(description);
 		this.setAttachments(attachments);
 		this.setAttributes(attributes);
-		this.setRequiredRoles(required_roles);
 		this.setDeadline(deadline);
 		this.setStatus(status);
 	}
@@ -98,7 +96,6 @@ class Job {
 			this.getDescription(),
 			this.getAttachments(),
 			this.getAttributes(),
-			this.getRequiredRoles(),
 			this.getDeadline(),
 			this.getStatus(),
 			this.getAssignee(),
@@ -112,20 +109,18 @@ class Job {
 			this.setDescription(scene[1]);
 			this.setAttachments(scene[2]);
 			this.setAttributes(scene[3]);
-			this.setRequiredRoles(scene[4]);
-			this.setDeadline(scene[5]);
-			this.setStatus(scene[6]);
-			this.setAssignee(scene[7]);
-			this.setWork(scene[8]);
+			this.setDeadline(scene[4]);
+			this.setStatus(scene[5]);
+			this.setAssignee(scene[6]);
+			this.setWork(scene[7]);
 		}
 		else {
-			// SceneId,Description,Attachments,Attributes,RequiredRoles,Deadline,Status,Assignee,Work
+			// SceneId,Description,Attachments,Attributes,Deadline,Status,Assignee,Work
 			// This will work out if object has those properties and assign them.
 			if (scene['SceneId'] != undefined) { this.setSceneId(scene['SceneId']);};
 			if (scene['Description'] != undefined) { this.setDescription(scene['Description']);};
 			if (scene['Attachments'] != undefined) { this.setAttachments(scene['Attachments']);};
 			if (scene['Attributes'] != undefined) { this.setAttributes(scene['Attributes']);};
-			if (scene['RequiredRoles'] != undefined) { this.setRequiredRoles(scene['RequiredRoles']);};
 			if (scene['Deadline'] != undefined) { this.setDeadline(scene['Deadline']);};
 			if (scene['Status'] != undefined) { this.setStatus(scene['Status']);};
 			if (scene['Assignee'] != undefined) { this.setAssignee(scene['Assignee']);};
@@ -161,12 +156,8 @@ class Job {
 		return this.attributes == null ? 'N/A' : this.attributes.toString();
 	}
 
-	getRequiredRoles() {
-		return this.required_roles == null ? 'N/A' : this.required_roles.toString();
-	}
-
 	getDeadline() {
-		return this.required_roles == null ? null : this.deadline.toISOString();
+		return this.deadline.toISOString();
 	}
 
 	// Return a deadline in discord timestamp
@@ -204,10 +195,6 @@ class Job {
 
 	setAttributes(attributes) {
 		this.attributes = attributes;
-	}
-
-	setRequiredRoles(required_roles) {
-		this.required_roles = required_roles;
 	}
 
 	setDeadline(deadline) {
