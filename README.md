@@ -1,4 +1,4 @@
-# OSO Assigner Bot
+# ⚠️ NEW REPO: https://github.com/OSO-Assigner-Bot-Team/J0BG1VA ⚠️
 This is the self-assigning bot for the production for Open Source Objects, built with [discord.js](https://discord.js.org/).
 
 ## Features
